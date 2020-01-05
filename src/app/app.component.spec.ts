@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'mailnesia-angular-app'`, () => {
+  it(`should have as title 'Welcome'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('mailnesia-angular-app');
+    expect(app.title).toEqual('Welcome');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('mailnesia-angular-app app is running!');
+    expect(compiled.querySelector('button').textContent).toContain('Simple demo');
   });
 });
