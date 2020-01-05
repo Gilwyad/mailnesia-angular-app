@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'Welcome'`, () => {
+  it(`should have as title 'Anonymous Email in Seconds'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('Welcome');
+    expect(app.title).toEqual('Anonymous Email in Seconds');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('button').textContent).toContain('Simple demo');
+    expect(compiled.querySelector('h1').textContent).toContain('Anonymous Email in Seconds');
   });
 });
