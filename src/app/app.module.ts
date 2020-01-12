@@ -8,7 +8,14 @@ import { MailboxSettingsComponent } from './mailbox-settings/mailbox-settings.co
 import { MailboxListViewComponent } from './mailbox-list-view/mailbox-list-view.component';
 import { MailboxDetailViewComponent } from './mailbox-detail-view/mailbox-detail-view.component';
 import { MainPageComponent } from './main-page/main-page.component';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+
+const routes: Routes = [
+  { path: '', component: MainPageComponent },
+  { path: 'settings/:mailbox', component: MailboxSettingsComponent },
+  { path: 'mailbox/:mailbox', component: MailboxListViewComponent },
+  { path: 'mailbox/:mailbox/:emailId', component: MailboxDetailViewComponent },
+];
 
 @NgModule({
   declarations: [
@@ -22,12 +29,7 @@ import { RouterModule } from '@angular/router';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot([
-      { path: '', component: MainPageComponent },
-      { path: 'settings/:mailbox', component: MailboxSettingsComponent },
-      { path: 'mailbox/:mailbox', component: MailboxListViewComponent },
-      { path: 'mailbox/:mailbox/:emailId', component: MailboxDetailViewComponent },
-    ])
+    RouterModule.forRoot(routes, { useHash: true })
   ],
   providers: [],
   bootstrap: [AppComponent]
