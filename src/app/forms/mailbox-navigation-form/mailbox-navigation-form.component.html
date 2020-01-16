@@ -1,0 +1,17 @@
+<form class="form-inline my-2 my-lg-0" [formGroup]="mailboxNavigationForm" (ngSubmit)="onSubmit()">
+    <input class="form-control mr-sm-2" type="text" placeholder="type mailbox name" aria-label="Search" formControlName="mailbox">
+    <div class="input-group-prepend" *ngIf="mailboxNavigationForm.controls.mailbox?.errors?.maxlength">
+      <span class="input-group-text">
+        max 30 characters!
+      </span>
+    </div>
+    <div class="input-group-prepend" *ngIf="mailboxNavigationForm.controls.mailbox?.errors?.pattern">
+      <span class="input-group-text">
+        invalid characters!
+      </span>
+    </div>
+    <div class="input-group-append">
+      <span class="input-group-text" id="basic-addon1">@mailnesia.com</span>
+    </div>
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" [disabled]="mailboxNavigationForm.invalid">Open</button>
+</form>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-mailbox-list-view',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./mailbox-list-view.component.less']
 })
 export class MailboxListViewComponent implements OnInit {
+  @Input() mailbox: string;
 
   constructor() { }
 

@@ -22,4 +22,12 @@ describe('MainPageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should render title', () => {
+    fixture = TestBed.createComponent(MainPageComponent);
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('h1').textContent).toContain('Anonymous Email in Seconds');
+  });
+
 });

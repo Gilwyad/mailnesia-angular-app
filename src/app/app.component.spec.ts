@@ -1,14 +1,20 @@
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MailboxFormComponent } from './forms/mailbox-form/mailbox-form.component';
+import { MailboxNavigationFormComponent } from './forms/mailbox-navigation-form/mailbox-navigation-form.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        ReactiveFormsModule,
         RouterTestingModule
       ],
       declarations: [
+        MailboxFormComponent,
+        MailboxNavigationFormComponent,
         AppComponent
       ],
     }).compileComponents();

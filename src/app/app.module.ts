@@ -1,3 +1,4 @@
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -9,6 +10,8 @@ import { MailboxListViewComponent } from './mailbox-list-view/mailbox-list-view.
 import { MailboxDetailViewComponent } from './mailbox-detail-view/mailbox-detail-view.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { RouterModule, Routes } from '@angular/router';
+import { MailboxFormComponent } from './forms/mailbox-form/mailbox-form.component';
+import { MailboxNavigationFormComponent } from './forms/mailbox-navigation-form/mailbox-navigation-form.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent },
@@ -23,15 +26,19 @@ const routes: Routes = [
     MailboxSettingsComponent,
     MailboxListViewComponent,
     MailboxDetailViewComponent,
-    MainPageComponent
+    MainPageComponent,
+    MailboxFormComponent,
+    MailboxNavigationFormComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(routes, { useHash: true })
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
