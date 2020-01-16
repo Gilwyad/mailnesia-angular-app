@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mailbox-navigation-form',
@@ -15,7 +16,7 @@ export class MailboxNavigationFormComponent implements OnInit {
       ])
   });
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
@@ -23,5 +24,6 @@ export class MailboxNavigationFormComponent implements OnInit {
   onSubmit() {
     // TODO: Use EventEmitter with form value
     console.warn(this.mailboxNavigationForm.value);
+    this.router.navigate(['/mailbox', this.mailboxNavigationForm.value.mailbox]);
   }
 }
