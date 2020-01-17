@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Anonymous Email in Seconds';
+
+  collapsed = true;
+  toggleCollapsed(): void {
+    this.collapsed = !this.collapsed;
+  }
 }
