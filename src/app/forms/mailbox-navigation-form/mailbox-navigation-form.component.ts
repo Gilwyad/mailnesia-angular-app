@@ -12,7 +12,7 @@ export class MailboxNavigationFormComponent implements OnInit {
     mailbox: new FormControl('', [
       Validators.required,
       Validators.maxLength(30),
-      Validators.pattern('[a-z0-9.+_-]+')
+      Validators.pattern('[A-Za-z0-9.+_-]+')
       ])
   });
 
