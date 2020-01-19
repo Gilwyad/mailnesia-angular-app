@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MailboxNameService } from 'src/app/services/mailbox-name.service';
 
 @Component({
   selector: 'app-mailbox-navigation-form',
@@ -16,14 +17,22 @@ export class MailboxNavigationFormComponent implements OnInit {
       ])
   });
 
-  constructor(private router: Router) { }
+  selectedMailboxName: string;
+
+  constructor(
+    private router: Router,
+    private mailboxName: MailboxNameService
+  ) { }
 
   ngOnInit() {
+    this.mailboxName.selectedMailboxName.subscribe(name => {
+      this.selectedMailboxName = name;
+      this.mailboxNavigationForm.setValue({mailbox: name});
+    });
   }
 
   onSubmit() {
-    // TODO: Use EventEmitter with form value
-    console.warn(this.mailboxNavigationForm.value);
+    this.mailboxName.changeMailboxName(this.mailboxNavigationForm.value.mailbox);
     this.router.navigate(['/mailbox', this.mailboxNavigationForm.value.mailbox]);
   }
 }
