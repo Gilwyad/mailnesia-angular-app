@@ -9,4 +9,15 @@ describe('MailboxNameService', () => {
     const service: MailboxNameService = TestBed.get(MailboxNameService);
     expect(service).toBeTruthy();
   });
+
+  it('can save mailbox', done => {
+    const name = 'test1';
+    const service: MailboxNameService = TestBed.get(MailboxNameService);
+    service.changeMailboxName(name);
+    service.selectedMailboxName.subscribe(result => {
+      expect(result).toBe(name);
+      done();
+    });
+  });
+
 });
