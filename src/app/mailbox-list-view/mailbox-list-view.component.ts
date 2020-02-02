@@ -1,5 +1,7 @@
+import { EmailListService } from './../services/email-list.service';
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { EmailList } from '../types/email-list.model';
 
 @Component({
   selector: 'app-mailbox-list-view',
@@ -7,9 +9,14 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./mailbox-list-view.component.less']
 })
 export class MailboxListViewComponent implements OnInit {
-  @Input() mailbox: string;
+  mailbox: string;
 
-  constructor(private route: ActivatedRoute) { }
+  emailList: EmailList[];
+
+  constructor(
+    private route: ActivatedRoute,
+    private emailListService: EmailListService
+  ) { }
 
   ngOnInit() {
     // load the mailbox name from the URL into a variable
@@ -18,6 +25,9 @@ export class MailboxListViewComponent implements OnInit {
     this.route.params.subscribe(
       params => this.mailbox = params.mailbox
     );
+
+    // load list of emails of this mailbox
+    this.emailList = this.emailListService.getEmailList();
   }
 
 }

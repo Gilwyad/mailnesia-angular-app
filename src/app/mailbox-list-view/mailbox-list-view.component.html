@@ -1,2 +1,19 @@
-<p>mailbox-list-view works!</p>
-<p>{{mailbox}}</p>
+<h3>Mail for {{mailbox}}</h3>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th>Date</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Subject</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let email of emailList">
+            <td>{{email.date | date : 'long'}}</td>
+            <td>{{email.from}}</td>
+            <td>{{email.to}}</td>
+            <td><a [routerLink]="['/mailbox', mailbox, email.id]">{{email.subject}}</a></td>
+        </tr>
+    </tbody>
+</table>

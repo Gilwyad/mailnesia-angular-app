@@ -1,3 +1,4 @@
+import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MailboxDetailViewComponent } from './mailbox-detail-view.component';
@@ -8,7 +9,12 @@ describe('MailboxDetailViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MailboxDetailViewComponent ]
+      declarations: [
+        MailboxDetailViewComponent
+      ],
+      imports: [
+        RouterTestingModule
+      ]
     })
     .compileComponents();
   }));

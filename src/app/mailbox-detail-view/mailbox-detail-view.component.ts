@@ -1,4 +1,6 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { EmailService } from '../services/email.service';
 
 @Component({
   selector: 'app-mailbox-detail-view',
@@ -6,10 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./mailbox-detail-view.component.less']
 })
 export class MailboxDetailViewComponent implements OnInit {
+  mailbox: string;
+  emailId: number;
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute,
+    private emailService: EmailService
+  ) { }
 
   ngOnInit() {
+    this.route.params.subscribe(
+      params => {
+        this.mailbox = params.mailbox;
+        this.emailId = params.emailId;
+      }
+    );
   }
-
 }
