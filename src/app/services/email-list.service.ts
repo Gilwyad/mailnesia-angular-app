@@ -1,32 +1,32 @@
+import { environment } from './../../environments/environment';
 import { EmailList } from './../types/email-list.model';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { HttpErrors } from '../types/http-errors.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmailListService {
 
-  constructor() { }
-
-  private testEmailList: EmailList[] = [
-    {
-      id: 1,
-      date: new Date('1999-02-02'),
-      from: 'test sender1',
-      subject: 'first subject',
-      to: 'one'
-    },
-    {
-      id: 2,
-      date: new Date('1999-02-03'),
-      from: 'test sender2',
-      subject: 'second subject',
-      to: 'two'
-    }
-  ];
+  constructor(private http: HttpClient) { }
 
   /** Load list of emails */
-  getEmailList() {
-    return this.testEmailList;
+  getEmailList(mailboxName: string): Observable<EmailList[] | HttpErrors> {
+    return this.http.get<EmailList[]>(`${environment.backendApiUrl}/mailbox/${mailboxName}`)
+      .pipe(
+        catchError(err => this.handleHttpError(err))
+      );
+  }
+  handleHttpError(err: HttpErrorResponse): Observable<HttpErrors> {
+    const errorObject: HttpErrors = {
+      code: err.status,
+      message: err.error,
+      serverMessage: err.message
+    };
+
+    return throwError(errorObject);
   }
 }

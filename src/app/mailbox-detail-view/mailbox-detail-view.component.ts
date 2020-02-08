@@ -10,6 +10,7 @@ import { EmailService } from '../services/email.service';
 export class MailboxDetailViewComponent implements OnInit {
   mailbox: string;
   emailId: number;
+  email: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,6 +22,10 @@ export class MailboxDetailViewComponent implements OnInit {
       params => {
         this.mailbox = params.mailbox;
         this.emailId = params.emailId;
+        this.emailService.getEmail(this.mailbox, this.emailId).subscribe(
+          (data: string) => this.email = data,
+          (err: any) => console.error(err)
+        );
       }
     );
   }

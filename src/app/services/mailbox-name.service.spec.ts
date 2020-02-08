@@ -12,9 +12,10 @@ describe('MailboxNameService', () => {
 
   it('can save mailbox', done => {
     const name = 'test1';
-    const service: MailboxNameService = TestBed.get(MailboxNameService);
-    service.changeMailboxName(name);
-    service.selectedMailboxName.subscribe(result => {
+    const firstService: MailboxNameService = TestBed.get(MailboxNameService);
+    const secondService: MailboxNameService = TestBed.get(MailboxNameService);
+    firstService.changeMailboxName(name);
+    secondService.selectedMailboxName.subscribe(result => {
       expect(result).toBe(name);
       done();
     });

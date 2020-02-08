@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  backendApiUrl: 'https://mailnesia.com/api'
 };
