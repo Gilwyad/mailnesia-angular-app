@@ -1,7 +1,7 @@
+import { EmailList } from './../types/email-list.model';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { EmailListService } from './email-list.service';
-import { EmailList } from '../types/email-list.model';
 import { HttpErrors } from '../types/http-errors.model';
 
 describe('EmailListService', () => {
@@ -47,12 +47,12 @@ describe('EmailListService', () => {
         to: 'recipient2'
       }
     ];
-    service.getEmailList('test').subscribe(
-      data => {
+    service.getEmailList('test').subscribe({
+      next: (data: EmailList[]) => {
         // When observable resolves, result should match test data
         expect(data).toEqual(testData);
       }
-    );
+    });
 
     // The following `expectOne()` will match the request's URL.
     // If no requests or multiple requests matched that URL

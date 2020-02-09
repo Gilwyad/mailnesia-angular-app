@@ -1,17 +1,72 @@
 import { TestBed } from '@angular/core/testing';
-
 import { EmailService } from './email.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { Email } from '../types/email.model';
+import { HttpErrors } from '../types/http-errors.model';
 
 describe('EmailService', () => {
-  beforeEach(() => TestBed.configureTestingModule({
+  let service: EmailService;
+  let httpTestingController: HttpTestingController;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
     imports: [
-      HttpClientModule,
-    ]
-  }));
+      HttpClientTestingModule,
+    ]});
+
+    service = TestBed.get(EmailService);
+    httpTestingController = TestBed.get(HttpTestingController);
+  });
+
+  afterEach(() => {
+    // Finally, assert that there are no outstanding requests.
+    httpTestingController.verify();
+  });
 
   it('should be created', () => {
-    const service: EmailService = TestBed.get(EmailService);
     expect(service).toBeTruthy();
   });
+
+  it('should return an email for mailbox test', () => {
+    const testData: Email = {
+      text_html: '<b>html test</b>',
+      text_plain: 'plain test'
+    };
+    service.getEmail('test', 22).subscribe({
+      next: (data: Email) => {
+        // When observable resolves, result should match test data
+        expect(data).toEqual(testData);
+      }
+    });
+
+    // The following `expectOne()` will match the request's URL.
+    // If no requests or multiple requests matched that URL
+    // `expectOne()` would throw.
+    const request = httpTestingController.expectOne('http://mailnesia.test/api/mailbox/test/22');
+
+    // Assert that the request is a GET.
+    expect(request.request.method).toEqual('GET');
+
+    // Respond with mock data, causing Observable to resolve.
+    // Subscribe callback asserts that correct data was returned.
+    request.flush(testData);
+  });
+
+  it('should return error', () => {
+    service.getEmail('test', 23).subscribe({
+      next: (data: Email) => fail('this should have been an error'),
+      error: (data: HttpErrors) => {
+        expect(data.code).toEqual(500);
+        expect(data.message).toEqual('error');
+        expect(data.serverMessage).toContain('Server Error');
+      }
+    });
+    const request = httpTestingController.expectOne('http://mailnesia.test/api/mailbox/test');
+    request.flush('error', {
+      status: 500,
+      statusText: 'Server Error',
+    });
+
+  });
+
 });

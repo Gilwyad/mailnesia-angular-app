@@ -20,8 +20,8 @@
     <tbody>
         <tr *ngFor="let email of emailList">
             <td>{{email.date | date : 'long'}}</td>
-            <td>{{email.from}}</td>
-            <td>{{email.to}}</td>
+            <td [innerHTML] = "email.from"></td>
+            <td [innerHTML] = "email.to"></td>
             <td><a [routerLink]="['/mailbox', mailbox, email.id]">{{email.subject}}</a></td>
         </tr>
     </tbody>

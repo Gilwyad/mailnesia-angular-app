@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed, ComponentFixtureAutoDetect } from '@a
 
 import { MailboxListViewComponent } from './mailbox-list-view.component';
 import { HttpClientModule } from '@angular/common/http';
-import { By } from '@angular/platform-browser';
 import { EmailList } from '../types/email-list.model';
 
 describe('MailboxListViewComponent', () => {
@@ -92,8 +91,7 @@ describe('MailboxListViewComponent', () => {
 
     component.emailList = testData;
     fixture.detectChanges();
-    const emailListTable = nativeElement.querySelector('table#email-list');
-    expect(emailListTable.querySelector('tbody tr td')).toBeDefined();
+    expect(nativeElement.querySelector('table#email-list tbody tr td')).toBeDefined();
   });
 
   it(`should show no email if empty mailbox (emailList===[])`, () => {
