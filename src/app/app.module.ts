@@ -11,6 +11,7 @@ import { MailboxDetailViewComponent } from './mailbox-detail-view/mailbox-detail
 import { MainPageComponent } from './main-page/main-page.component';
 import { MailboxFormComponent } from './forms/mailbox-form/mailbox-form.component';
 import { MailboxNavigationFormComponent } from './forms/mailbox-navigation-form/mailbox-navigation-form.component';
+import { BypassSecurityPipe } from './bypass-security.pipe';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { MailboxNavigationFormComponent } from './forms/mailbox-navigation-form/
     MainPageComponent,
     MailboxFormComponent,
     MailboxNavigationFormComponent,
+    BypassSecurityPipe,
   ],
   imports: [
     BrowserModule,

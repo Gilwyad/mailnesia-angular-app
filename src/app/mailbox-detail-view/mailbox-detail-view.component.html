@@ -11,4 +11,4 @@
   </li>
 </ul>
 
-<div id="mailnesiaHtmlEmailContent" *ngIf="email && email[selectedTab]" [innerHTML]="email[selectedTab]"></div>
+<div id="mailnesiaHtmlEmailContent" *ngIf="email && email[selectedTab]" [innerHTML]="email[selectedTab] | bypassSecurity"></div>

@@ -8,7 +8,7 @@
 <div id="no-mail" class="alert alert-info" role="alert" *ngIf="emailList==0">
     No emails
 </div>
-<table id="email-list" class="table" *ngIf="emailList?.length">
+<table id="email-list" class="table table-hover table-sm" *ngIf="emailList?.length">
     <thead class="thead-light">
         <tr>
             <th>Date</th>
@@ -18,11 +18,18 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let email of emailList">
-            <td>{{email.date | date : 'long'}}</td>
-            <td [innerHTML] = "email.from"></td>
-            <td [innerHTML] = "email.to"></td>
-            <td><a [routerLink]="['/mailbox', mailbox, email.id]">{{email.subject}}</a></td>
-        </tr>
+        <ng-template ngFor let-email [ngForOf]="emailList">
+            <tr (click)="openEmail(email)">
+                <td>{{email.date | date : 'long'}}</td>
+                <td [innerHTML] = "email.from"></td>
+                <td [innerHTML] = "email.to"></td>
+                <td><a [routerLink]="['/mailbox', mailbox, email.id]">{{email.subject}}</a></td>
+            </tr>
+            <tr *ngIf="selectedEmail === email">
+                <td colspan="4">
+                    <app-mailbox-detail-view [emailId]="email?.id"></app-mailbox-detail-view>
+                </td>
+            </tr>
+        </ng-template>
     </tbody>
 </table>

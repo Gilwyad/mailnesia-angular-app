@@ -1,7 +1,7 @@
+import { EmailList } from './../types/email-list.model';
 import { EmailListService } from './../services/email-list.service';
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EmailList } from '../types/email-list.model';
 import { HttpErrors } from '../types/http-errors.model';
 
 @Component({
@@ -14,6 +14,7 @@ export class MailboxListViewComponent implements OnInit {
   emailList: EmailList[];
   emailListError: HttpErrors;
   isLoading = true;
+  selectedEmail: EmailList;
 
   constructor(
     private route: ActivatedRoute,
@@ -41,6 +42,10 @@ export class MailboxListViewComponent implements OnInit {
       }
     );
 
+  }
+
+  openEmail(email: EmailList): void {
+    this.selectedEmail = this.selectedEmail === email ? null : email;
   }
 
 }

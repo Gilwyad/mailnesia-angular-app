@@ -1,3 +1,5 @@
+import { BypassSecurityPipe } from './../bypass-security.pipe';
+import { MailboxDetailViewComponent } from './../mailbox-detail-view/mailbox-detail-view.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed, ComponentFixtureAutoDetect } from '@angular/core/testing';
 
@@ -13,6 +15,8 @@ describe('MailboxListViewComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         MailboxListViewComponent,
+        MailboxDetailViewComponent,
+        BypassSecurityPipe,
       ],
       imports: [
         RouterTestingModule,

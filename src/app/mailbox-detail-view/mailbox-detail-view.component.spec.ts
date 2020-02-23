@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed, ComponentFixtureAutoDetect } from '@a
 
 import { MailboxDetailViewComponent } from './mailbox-detail-view.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BypassSecurityPipe } from '../bypass-security.pipe';
 
 describe('MailboxDetailViewComponent', () => {
   let component: MailboxDetailViewComponent;
@@ -12,7 +13,8 @@ describe('MailboxDetailViewComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        MailboxDetailViewComponent
+        MailboxDetailViewComponent,
+        BypassSecurityPipe,
       ],
       imports: [
         RouterTestingModule,

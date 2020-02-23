@@ -61,7 +61,7 @@ describe('EmailService', () => {
         expect(data.serverMessage).toContain('Server Error');
       }
     });
-    const request = httpTestingController.expectOne('http://mailnesia.test/api/mailbox/test');
+    const request = httpTestingController.expectOne('http://mailnesia.test/api/mailbox/test/23');
     request.flush('error', {
       status: 500,
       statusText: 'Server Error',

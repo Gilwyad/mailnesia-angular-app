@@ -1,6 +1,6 @@
 import { Email } from './../types/email.model';
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { EmailService } from '../services/email.service';
 
 @Component({
@@ -10,13 +10,12 @@ import { EmailService } from '../services/email.service';
 })
 export class MailboxDetailViewComponent implements OnInit {
   mailbox: string;
-  emailId: number;
+  @Input() emailId: number;
   email: Email;
   objectKeys = Object.keys;
   isLoading = true;
   selectedTab = 'text_html';
   emailError: boolean;
-  // TODO: emailId input parameter
 
   constructor(
     private route: ActivatedRoute,
@@ -27,7 +26,9 @@ export class MailboxDetailViewComponent implements OnInit {
     this.route.params.subscribe(
       params => {
         this.mailbox = params.mailbox;
-        this.emailId = params.emailId;
+        if (params.emailId) {
+          this.emailId = params.emailId;
+        }
         this.emailService.getEmail(this.mailbox, this.emailId).subscribe({
           next: (data: Email) => {
             this.email = data;
