@@ -32,6 +32,9 @@ export class MailboxDetailViewComponent implements OnInit {
         this.emailService.getEmail(this.mailbox, this.emailId).subscribe({
           next: (data: Email) => {
             this.email = data;
+            if (!data.hasOwnProperty('text_html')) {
+              this.setSelectedTab(Object.keys(data)[0]);
+            }
             this.isLoading = this.emailError = false;
           },
           error: (err: any) => {
