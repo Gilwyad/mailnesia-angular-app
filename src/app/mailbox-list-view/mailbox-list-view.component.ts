@@ -31,7 +31,7 @@ export class MailboxListViewComponent implements OnInit {
         // load list of emails of this mailbox
         this.emailListService.getEmailList(this.mailbox).subscribe({
           next: (data: EmailList[]) => {
-            this.emailList = data;
+            this.emailList = data.sort((a, b) => a.id < b.id ? -1 : 1);
             this.isLoading = false;
           },
           error: (err: HttpErrors) => {
