@@ -57,7 +57,7 @@ describe('EmailListService', () => {
     // The following `expectOne()` will match the request's URL.
     // If no requests or multiple requests matched that URL
     // `expectOne()` would throw.
-    const request = httpTestingController.expectOne('http://mailnesia.test/api/mailbox/test');
+    const request = httpTestingController.expectOne('/api/mailbox/test');
 
     // Assert that the request is a GET.
     expect(request.request.method).toEqual('GET');
@@ -77,7 +77,7 @@ describe('EmailListService', () => {
         expect(data.serverMessage).toContain('Server Error');
       }
     });
-    const request = httpTestingController.expectOne('http://mailnesia.test/api/mailbox/test');
+    const request = httpTestingController.expectOne('/api/mailbox/test');
     request.flush('error', {
       status: 500,
       statusText: 'Server Error',
