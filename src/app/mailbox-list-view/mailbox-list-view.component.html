@@ -1,35 +1,43 @@
 <h3>Mail for {{mailbox}}</h3>
 <div id="loading" class="spinner-border" role="status" *ngIf="isLoading">
-    <span class="sr-only">Loading...</span>
+  <span class="sr-only">Loading...</span>
 </div>
 <div id="error" class="alert alert-danger" role="alert" *ngIf="emailListError">
-    Error loading mail list!
+  Error loading mail list!
 </div>
+
+<div class="row icons">
+  <a class="icons" href="#" title="Mailbox settings">
+    <img src="assets/settings.svg">
+  </a>
+  <a class="icons" href="#" title="RSS feed of this mailbox">
+    <img src="assets/rss.svg">
+  </a>
+  <a class="icons" href="#" title="Delete all emails">
+    <img src="assets/trash.svg">
+  </a>
+</div>
+
 <div id="no-mail" class="alert alert-info" role="alert" *ngIf="emailList==0">
-    No emails
+  No emails
 </div>
-<table id="email-list" class="table table-borderless table-sm" *ngIf="emailList?.length">
-    <thead class="thead-light">
-        <tr>
-            <th>Date</th>
-            <th>From</th>
-            <th>To</th>
-            <th>Subject</th>
-        </tr>
-    </thead>
-    <tbody>
-        <ng-template ngFor let-email [ngForOf]="emailList">
-            <tr (click)="openEmail(email)">
-                <td>{{email.date | date : 'long'}}</td>
-                <td [innerHTML] = "email.from"></td>
-                <td [innerHTML] = "email.to"></td>
-                <td><a [routerLink]="['/mailbox', mailbox, email.id]">{{email.subject}}</a></td>
-            </tr>
-            <tr *ngIf="selectedEmail === email">
-                <td colspan="4">
-                    <app-mailbox-detail-view [emailId]="email?.id"></app-mailbox-detail-view>
-                </td>
-            </tr>
-        </ng-template>
-    </tbody>
+<table id="email-list" class="table" *ngIf="emailList?.length">
+  <thead class="thead-light">
+    <tr>
+      <th>Date</th>
+      <th>From</th>
+      <th>To</th>
+      <th>Subject</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-template ngFor let-email [ngForOf]="emailList">
+      <tr (click)="openEmail(email)">
+        <td>{{email.date | date : 'long'}}</td>
+        <td [innerHTML]="email.from"></td>
+        <td [innerHTML]="email.to"></td>
+        <td>{{email.subject}}</td>
+      </tr>
+    </ng-template>
+  </tbody>
 </table>

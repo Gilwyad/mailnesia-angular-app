@@ -95,7 +95,8 @@ describe('MailboxListViewComponent', () => {
 
     component.emailList = testData;
     fixture.detectChanges();
-    expect(nativeElement.querySelector('table#email-list tbody tr td')).toBeDefined();
+    const emailList = nativeElement.querySelectorAll('table#email-list tbody tr');
+    expect(emailList.length).toEqual(2, 'Should list 2 emails');
   });
 
   it(`should show no email if empty mailbox (emailList===[])`, () => {

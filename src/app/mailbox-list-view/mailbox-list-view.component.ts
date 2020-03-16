@@ -1,7 +1,7 @@
 import { EmailList } from './../types/email-list.model';
 import { EmailListService } from './../services/email-list.service';
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrors } from '../types/http-errors.model';
 
 @Component({
@@ -18,7 +18,8 @@ export class MailboxListViewComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private emailListService: EmailListService
+    private emailListService: EmailListService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -45,6 +46,7 @@ export class MailboxListViewComponent implements OnInit {
   }
 
   openEmail(email: EmailList): void {
+    this.router.navigate(['/mailbox', this.mailbox, email.id]);
     this.selectedEmail = this.selectedEmail === email ? null : email;
   }
 

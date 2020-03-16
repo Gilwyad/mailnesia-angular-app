@@ -5,6 +5,18 @@
   Error loading email!
 </div>
 
+<div class="row icons">
+  <a class="icons" [routerLink]="['/mailbox', mailbox]" title="Go back to list">
+    <img src="assets/left-arrow.svg">
+  </a>
+  <a class="icons" href="#" title="View original">
+    <img src="assets/code.svg">
+  </a>
+  <a class="icons" href="#" title="Delete this email">
+    <img src="assets/trash.svg">
+  </a>
+</div>
+
 <ul class="nav nav-tabs" *ngIf="email">
   <li class="nav-item" *ngFor="let tab of objectKeys(email)">
     <a class="nav-link" [ngClass]="{'active': selectedTab===tab}" (click)=setSelectedTab(tab)>{{tab}}</a>
