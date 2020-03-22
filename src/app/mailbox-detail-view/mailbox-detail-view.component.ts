@@ -2,6 +2,7 @@ import { Email } from './../types/email.model';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Input } from '@angular/core';
 import { EmailService } from '../services/email.service';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-mailbox-detail-view',
@@ -19,7 +20,8 @@ export class MailboxDetailViewComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private emailService: EmailService
+    private emailService: EmailService,
+    private location: Location,
   ) { }
 
   ngOnInit() {
@@ -49,5 +51,9 @@ export class MailboxDetailViewComponent implements OnInit {
 
   setSelectedTab(name: string) {
     this.selectedTab = name;
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

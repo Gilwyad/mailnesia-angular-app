@@ -6,7 +6,7 @@
 </div>
 
 <div class="row icons">
-  <a class="icons" [routerLink]="['/mailbox', mailbox]" title="Go back to list">
+  <a class="icons" (click)="goBack()" title="Go back to list">
     <img src="assets/left-arrow.svg">
   </a>
   <a class="icons" href="#" title="View original">

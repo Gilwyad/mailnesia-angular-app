@@ -2,10 +2,11 @@ import { BypassSecurityPipe } from './../bypass-security.pipe';
 import { MailboxDetailViewComponent } from './../mailbox-detail-view/mailbox-detail-view.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed, ComponentFixtureAutoDetect } from '@angular/core/testing';
-
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { MailboxListViewComponent } from './mailbox-list-view.component';
 import { HttpClientModule } from '@angular/common/http';
 import { EmailList } from '../types/email-list.model';
+import { FormsModule } from '@angular/forms';
 
 describe('MailboxListViewComponent', () => {
   let component: MailboxListViewComponent;
@@ -20,7 +21,9 @@ describe('MailboxListViewComponent', () => {
       ],
       imports: [
         RouterTestingModule,
-        HttpClientModule
+        HttpClientModule,
+        PaginationModule.forRoot(),
+        FormsModule,
       ],
       providers: [
         { provide: ComponentFixtureAutoDetect, useValue: true }
@@ -93,7 +96,7 @@ describe('MailboxListViewComponent', () => {
 
     expect(nativeElement.querySelector('table#email-list')).toBeNull();
 
-    component.emailList = testData;
+    component.emailListPage = testData;
     fixture.detectChanges();
     const emailList = nativeElement.querySelectorAll('table#email-list tbody tr');
     expect(emailList.length).toEqual(2, 'Should list 2 emails');

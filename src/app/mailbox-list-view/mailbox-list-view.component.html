@@ -18,10 +18,22 @@
   </a>
 </div>
 
-<div id="no-mail" class="alert alert-info" role="alert" *ngIf="emailList==0">
+<div id="no-mail" class="alert alert-info" role="alert" *ngIf="!emailList || !emailList.length">
   No emails
 </div>
-<table id="email-list" class="table" *ngIf="emailList?.length">
+
+<div class="row justify-content-center" *ngIf="emailList?.length">
+  <div class="col-xs-12 col-12">
+    <pagination [totalItems]="emailList.length"
+    (pageChanged)="pageChanged($event)"
+    [rotate]="rotate"
+    [maxSize]="10"
+    [(ngModel)]="currentPage"
+    [itemsPerPage]="numberOfEmailsPerPage"></pagination>
+  </div>
+</div>
+
+<table id="email-list" class="table" *ngIf="emailListPage?.length">
   <thead class="thead-light">
     <tr>
       <th>Date</th>
@@ -31,8 +43,8 @@
     </tr>
   </thead>
   <tbody>
-    <ng-template ngFor let-email [ngForOf]="emailList">
-      <tr (click)="openEmail(email)">
+    <ng-template ngFor let-email [ngForOf]="emailListPage">
+      <tr (click)="openEmail(email)" id="{{email.id}}">
         <td>{{email.date | date : 'long'}}</td>
         <td [innerHTML]="email.from"></td>
         <td [innerHTML]="email.to"></td>

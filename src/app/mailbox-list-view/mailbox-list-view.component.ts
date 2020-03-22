@@ -1,8 +1,10 @@
+import { MailboxNameService } from './../services/mailbox-name.service';
 import { EmailList } from './../types/email-list.model';
 import { EmailListService } from './../services/email-list.service';
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrors } from '../types/http-errors.model';
+import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 
 @Component({
   selector: 'app-mailbox-list-view',
@@ -11,15 +13,18 @@ import { HttpErrors } from '../types/http-errors.model';
 })
 export class MailboxListViewComponent implements OnInit {
   mailbox: string;
-  emailList: EmailList[];
+  emailList: EmailList[];     // all emails
+  emailListPage: EmailList[]; // emails on one page
   emailListError: HttpErrors;
   isLoading = true;
-  selectedEmail: EmailList;
+  numberOfEmailsPerPage: number;
+  currentPage: number;
 
   constructor(
     private route: ActivatedRoute,
     private emailListService: EmailListService,
     private router: Router,
+    private nameService: MailboxNameService,
   ) { }
 
   ngOnInit() {
@@ -34,6 +39,15 @@ export class MailboxListViewComponent implements OnInit {
           next: (data: EmailList[]) => {
             this.emailList = data.sort((a, b) => a.id < b.id ? -1 : 1);
             this.isLoading = false;
+            this.emailListError = null;
+
+            this.nameService.selectedEmailListPage.subscribe((page: PageChangedEvent) => {
+              this.currentPage = page.page;
+              this.numberOfEmailsPerPage = page.itemsPerPage;
+              const startItem = (page.page - 1) * page.itemsPerPage;
+              const endItem = page.page * page.itemsPerPage;
+              this.emailListPage = this.emailList.slice(startItem, endItem);
+            });
           },
           error: (err: HttpErrors) => {
             this.emailListError = err;
@@ -45,9 +59,12 @@ export class MailboxListViewComponent implements OnInit {
 
   }
 
+  pageChanged(event: PageChangedEvent): void {
+    this.nameService.changeCurrentEmailListPage(event);
+  }
+
   openEmail(email: EmailList): void {
     this.router.navigate(['/mailbox', this.mailbox, email.id]);
-    this.selectedEmail = this.selectedEmail === email ? null : email;
   }
 
 }
