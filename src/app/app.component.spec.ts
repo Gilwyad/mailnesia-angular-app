@@ -36,6 +36,6 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('nav a').textContent).toContain('Mailnesia');
+    expect(compiled.querySelector('nav a').textContent).toContain('🅼');
   });
 });
