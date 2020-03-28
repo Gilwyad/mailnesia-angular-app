@@ -1,7 +1,7 @@
 import { Email } from './../types/email.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed, ComponentFixtureAutoDetect } from '@angular/core/testing';
-
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { MailboxDetailViewComponent } from './mailbox-detail-view.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BypassSecurityPipe } from '../bypass-security.pipe';
@@ -18,7 +18,8 @@ describe('MailboxDetailViewComponent', () => {
       ],
       imports: [
         RouterTestingModule,
-        HttpClientModule
+        HttpClientModule,
+        ModalModule.forRoot(),
       ],
       providers: [
         { provide: ComponentFixtureAutoDetect, useValue: true }

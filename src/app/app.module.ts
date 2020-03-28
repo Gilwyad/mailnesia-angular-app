@@ -17,6 +17,7 @@ import { Router, Scroll } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     HttpClientModule,
     PaginationModule.forRoot(),
     FormsModule,
+    ModalModule.forRoot(),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true},

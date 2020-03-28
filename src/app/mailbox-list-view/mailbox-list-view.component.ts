@@ -2,10 +2,11 @@ import { HttpCacheService } from './../services/http-cache.service';
 import { MailboxNameService } from './../services/mailbox-name.service';
 import { EmailList } from './../types/email-list.model';
 import { EmailListService } from './../services/email-list.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrors } from '../types/http-errors.model';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-mailbox-list-view',
@@ -23,6 +24,7 @@ export class MailboxListViewComponent implements OnInit, OnDestroy {
   pollForNewMailInterval = 60000;
   pollForNewMail;
   noEmail = false;
+  modalRef: BsModalRef;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,6 +32,7 @@ export class MailboxListViewComponent implements OnInit, OnDestroy {
     private router: Router,
     private nameService: MailboxNameService,
     private cacheService: HttpCacheService,
+    private modalService: BsModalService,
   ) { }
 
   ngOnInit() {
@@ -111,4 +114,12 @@ export class MailboxListViewComponent implements OnInit, OnDestroy {
     this.router.navigate(['/mailbox', this.mailbox, email.id]);
   }
 
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  // deleteAllEmails() {
+
+  // }
 }

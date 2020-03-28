@@ -13,7 +13,7 @@
   <a class="icons" href="https://mailnesia.com/rss/{{mailbox}}" title="RSS feed of this mailbox">
     <img src="assets/rss.svg">
   </a>
-  <a class="icons" href="#" title="Delete all emails">
+  <a class="icons" (click)="openModal(template)" title="Delete all emails">
     <img src="assets/trash.svg">
   </a>
 </div>
@@ -53,3 +53,20 @@
     </ng-template>
   </tbody>
 </table>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Delete all emails</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to delete all emails in this mailbox?</p>
+    <p>
+      <span class="badge badge-pill badge-danger">Warning</span>Not implemented
+    </p>
+    <button type="button" class="btn btn-danger" disabled (click)="deleteAllEmails()" >Delete</button>
+    <button type="button" class="btn btn-light" (click)="modalRef.hide()" >Cancel</button>
+  </div>
+</ng-template>

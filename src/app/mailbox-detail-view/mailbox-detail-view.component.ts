@@ -1,8 +1,9 @@
 import { Email } from './../types/email.model';
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 import { EmailService } from '../services/email.service';
 import {Location} from '@angular/common';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-mailbox-detail-view',
@@ -17,11 +18,13 @@ export class MailboxDetailViewComponent implements OnInit {
   isLoading = true;
   selectedTab = 'text_html';
   emailError: boolean;
+  modalRef: BsModalRef;
 
   constructor(
     private route: ActivatedRoute,
     private emailService: EmailService,
     private location: Location,
+    private modalService: BsModalService,
   ) { }
 
   ngOnInit() {
@@ -56,4 +59,12 @@ export class MailboxDetailViewComponent implements OnInit {
   goBack() {
     this.location.back();
   }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  // deleteEmail() {
+
+  // }
 }
