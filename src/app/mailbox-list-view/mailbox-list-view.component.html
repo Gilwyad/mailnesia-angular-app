@@ -7,10 +7,10 @@
 </div>
 
 <div class="row icons">
-  <a class="icons" href="#" title="Mailbox settings">
+  <a class="icons" [routerLink]="['/settings', mailbox]" title="Mailbox settings">
     <img src="assets/settings.svg">
   </a>
-  <a class="icons" href="#" title="RSS feed of this mailbox">
+  <a class="icons" href="https://mailnesia.com/rss/{{mailbox}}" title="RSS feed of this mailbox">
     <img src="assets/rss.svg">
   </a>
   <a class="icons" href="#" title="Delete all emails">
