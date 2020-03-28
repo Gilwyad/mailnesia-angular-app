@@ -18,6 +18,7 @@ import { ViewportScroller } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { TimeAgoPipe } from 'time-ago-pipe';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     MailboxFormComponent,
     MailboxNavigationFormComponent,
     BypassSecurityPipe,
+    TimeAgoPipe
   ],
   imports: [
     BrowserModule,
