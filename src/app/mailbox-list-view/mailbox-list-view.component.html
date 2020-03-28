@@ -36,18 +36,18 @@
 <table id="email-list" class="table" *ngIf="emailListPage?.length">
   <thead class="thead-light">
     <tr>
-      <th>Date</th>
-      <th>From</th>
-      <th>To</th>
-      <th>Subject</th>
+      <th style="width: 20%;" class="d-none d-sm-table-cell">Date</th>
+      <th style="width: 25%;">From</th>
+      <th style="width: 15%;" class="d-none d-sm-table-cell">To</th>
+      <th style="width: 40%;">Subject</th>
     </tr>
   </thead>
   <tbody>
     <ng-template ngFor let-email [ngForOf]="emailListPage">
       <tr (click)="openEmail(email)" id="{{email.id}}">
-        <td>{{email.date | timeAgo}}</td>
+        <td class="d-none d-sm-table-cell">{{email.date | timeAgo}}</td>
         <td [innerHTML]="email.from"></td>
-        <td [innerHTML]="email.to"></td>
+        <td [innerHTML]="email.to" class="d-none d-sm-table-cell"></td>
         <td>{{email.subject}}</td>
       </tr>
     </ng-template>
