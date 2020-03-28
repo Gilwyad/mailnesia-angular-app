@@ -105,8 +105,54 @@ describe('MailboxListViewComponent', () => {
   it(`should show no email if empty mailbox (emailList===[])`, () => {
     const nativeElement: HTMLElement = fixture.nativeElement;
     component.emailList = [];
+    component.noEmail = true;
     fixture.detectChanges();
     expect(nativeElement.querySelector('table#email-list')).toBeNull();
     expect(nativeElement.querySelector('div#no-mail')).toBeTruthy();
+  });
+
+  it(`should insert new mail to the top of the list`, () => {
+    const testEmail: EmailList[] = [
+      {
+        id: 22,
+        subject: 'Test Data',
+        date: new Date(),
+        from: 'sender1',
+        to: 'recipient1'
+      },
+      {
+        id: 23,
+        subject: 'Test Data 2',
+        date: new Date(),
+        from: 'sender2',
+        to: 'recipient2'
+      }
+    ];
+
+    const newEmail: EmailList[] = [
+      {
+        id: 24,
+        subject: 'Test Data3',
+        date: new Date(),
+        from: 'sender3',
+        to: 'recipient3'
+      },
+      {
+        id: 25,
+        subject: 'Test Data 4',
+        date: new Date(),
+        from: 'sender4',
+        to: 'recipient4'
+      }
+    ];
+    const nativeElement: HTMLElement = fixture.nativeElement;
+    component.currentPage = 1;
+    component.emailList = testEmail;
+    component.insertNewMailToTheTopOfTheList(newEmail);
+
+    fixture.detectChanges();
+    const emailList = nativeElement.querySelectorAll('table#email-list tbody tr');
+    expect(emailList.length).toEqual(4, 'Should list 4 emails');
+
   });
 });

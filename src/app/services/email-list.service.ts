@@ -1,7 +1,7 @@
 import { environment } from './../../environments/environment';
 import { EmailList } from './../types/email-list.model';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpBackend } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpErrors } from '../types/http-errors.model';
@@ -11,7 +11,12 @@ import { HttpErrors } from '../types/http-errors.model';
 })
 export class EmailListService {
 
-  constructor(private http: HttpClient) { }
+  url = environment.backendApiUrl;
+  httpClientSkipInterceptor: HttpClient;
+
+  constructor(private http: HttpClient, handler: HttpBackend) {
+    this.httpClientSkipInterceptor = new HttpClient(handler);
+  }
 
   /** Load list of emails */
   getEmailList(mailboxName: string): Observable<EmailList[] | HttpErrors> {
@@ -20,6 +25,14 @@ export class EmailListService {
         catchError(err => this.handleHttpError(err))
       );
   }
+
+  pollForNewMail(mailboxName: string, id: number): Observable<EmailList[] | string | HttpErrors> {
+    return this.httpClientSkipInterceptor.get<EmailList[]>(`${this.url}/mailbox/${mailboxName}?newerthan=${id}`)
+      .pipe(
+        catchError(err => this.handleHttpError(err))
+      );
+  }
+
   handleHttpError(err: HttpErrorResponse): Observable<HttpErrors> {
     const errorObject: HttpErrors = {
       code: err.status,
