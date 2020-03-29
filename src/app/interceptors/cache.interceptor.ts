@@ -25,7 +25,6 @@ export class CacheInterceptor implements HttpInterceptor {
     // for GET requests: check the url in cache, return if found
     const cachedResponse: HttpResponse<any> = this.cacheService.get(req.url);
     if (cachedResponse) {
-      console.log(`returning cached response: ${cachedResponse.url}`);
       return of(cachedResponse);
     }
 
@@ -33,9 +32,7 @@ export class CacheInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       tap(event => {
         if (event instanceof HttpResponse) {
-          console.log(`not adding response since status!=200: ${event.status}`);
           if (event.status === 200) {
-            console.log(`adding response to cache: ${req.url}`);
             this.cacheService.set(req.url, event);
           }
         }
