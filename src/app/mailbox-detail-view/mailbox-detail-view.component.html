@@ -5,7 +5,7 @@
   Error loading email!
 </div>
 
-<div class="row icons">
+<div class="row icons" *ngIf="!emailError">
   <a class="icons" (click)="goBack()" title="Go back to list">
     <img src="assets/left-arrow.svg">
   </a>

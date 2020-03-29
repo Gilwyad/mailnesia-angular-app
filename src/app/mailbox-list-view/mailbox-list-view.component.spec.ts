@@ -73,10 +73,12 @@ describe('MailboxListViewComponent', () => {
     fixture.detectChanges();
 
     expect(nativeElement.querySelector('div#error').textContent).toContain('Error', 'page should show alert with error');
+    expect(nativeElement.querySelector('div.row.icons')).toBeFalsy('page should not show icons if there’s an error');
 
     component.emailListError = null;
     fixture.detectChanges();
     expect(nativeElement.querySelector('div#error')).toBeNull('Alert should not show if EmailListError is set to false');
+    expect(nativeElement.querySelector('div.row.icons')).toBeTruthy('page should show icons if there’s no error');
   });
 
   it(`should show error depending on emailListErrorSubject`, () => {
@@ -92,10 +94,12 @@ describe('MailboxListViewComponent', () => {
     fixture.detectChanges();
 
     expect(nativeElement.querySelector('div#error').textContent).toContain('Error', 'page should show alert with error');
+    expect(nativeElement.querySelector('div.row.icons')).toBeFalsy('page should not show icons if there’s an error');
 
     component.emailListErrorSubject.next(null);
     fixture.detectChanges();
     expect(nativeElement.querySelector('div#error')).toBeNull('Alert should not show if emailListErrorSubject is set to null');
+    expect(nativeElement.querySelector('div.row.icons')).toBeTruthy('page should show icons if there’s no error');
   });
 
   it(`should show email list from emailList`, () => {
