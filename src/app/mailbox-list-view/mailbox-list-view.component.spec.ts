@@ -79,6 +79,25 @@ describe('MailboxListViewComponent', () => {
     expect(nativeElement.querySelector('div#error')).toBeNull('Alert should not show if EmailListError is set to false');
   });
 
+  it(`should show error depending on emailListErrorSubject`, () => {
+    const nativeElement: HTMLElement = fixture.nativeElement;
+    expect(component.emailListError).toBeFalsy('emailListError should be false initially');
+    expect(nativeElement.querySelector('div#error')).toBeNull('Alert should not show initially');
+
+    component.emailListErrorSubject.next({
+      code: 44,
+      message: 'error',
+      serverMessage: 'http error 99'
+    });
+    fixture.detectChanges();
+
+    expect(nativeElement.querySelector('div#error').textContent).toContain('Error', 'page should show alert with error');
+
+    component.emailListErrorSubject.next(null);
+    fixture.detectChanges();
+    expect(nativeElement.querySelector('div#error')).toBeNull('Alert should not show if emailListErrorSubject is set to null');
+  });
+
   it(`should show email list from emailList`, () => {
     const testData: EmailList[] = [
       {
@@ -104,18 +123,47 @@ describe('MailboxListViewComponent', () => {
     fixture.detectChanges();
     const emailList = nativeElement.querySelectorAll('table#email-list tbody tr');
     expect(emailList.length).toEqual(2, 'Should list 2 emails');
+    expect(nativeElement.querySelector('div#error')).toBeNull('Alert should not show if emailListErrorSubject is set to null');
+  });
+
+  it(`should show email list from emailListSubject`, () => {
+    const testData: EmailList[] = [
+      {
+        id: 22,
+        subject: 'Test Data',
+        date: new Date(),
+        from: 'sender1',
+        to: 'recipient1'
+      },
+      {
+        id: 23,
+        subject: 'Test Data 2',
+        date: new Date(),
+        from: 'sender2',
+        to: 'recipient2'
+      }
+    ];
+    const nativeElement: HTMLElement = fixture.nativeElement;
+
+    expect(nativeElement.querySelector('table#email-list')).toBeNull();
+
+    component.emailListSubject.next(testData);
+    fixture.detectChanges();
+    const emailList = nativeElement.querySelectorAll('table#email-list tbody tr');
+    expect(emailList.length).toEqual(2, 'Should list 2 emails');
+    expect(nativeElement.querySelector('div#error')).toBeNull('Alert should not show if emailListErrorSubject is set to null');
   });
 
   it(`should show no email if empty mailbox (emailList===[])`, () => {
     const nativeElement: HTMLElement = fixture.nativeElement;
-    component.emailList = [];
-    component.noEmail = true;
+    component.emailListSubject.next([]);
     fixture.detectChanges();
     expect(nativeElement.querySelector('table#email-list')).toBeNull();
     expect(nativeElement.querySelector('div#no-mail')).toBeTruthy();
+    expect(nativeElement.querySelector('div#error')).toBeNull('Alert should not show if emailListErrorSubject is set to null');
   });
 
-  it(`should insert new mail to the top of the list`, () => {
+  it(`should insert new mail to the top of the list if we are on the first page`, () => {
     const testEmail: EmailList[] = [
       {
         id: 22,
@@ -150,13 +198,92 @@ describe('MailboxListViewComponent', () => {
       }
     ];
     const nativeElement: HTMLElement = fixture.nativeElement;
-    component.currentPage = 1;
-    component.emailList = testEmail;
-    component.insertNewMailToTheTopOfTheList(newEmail);
-
+    component.setEmailListPage({page: 1, itemsPerPage: 10});
+    component.emailListSubject.next(testEmail);
     fixture.detectChanges();
-    const emailList = nativeElement.querySelectorAll('table#email-list tbody tr');
+
+    let emailList = nativeElement.querySelectorAll('table#email-list tbody tr');
+    expect(emailList.length).toEqual(2, 'Should list 2 emails');
+    expect(nativeElement.querySelector('div#error')).toBeNull('Alert should not show if emailListErrorSubject is set to null');
+
+    component.insertNewMailToTheTopOfTheList(newEmail);
+    fixture.detectChanges();
+
+    emailList = nativeElement.querySelectorAll('table#email-list tbody tr');
     expect(emailList.length).toEqual(4, 'Should list 4 emails');
+    expect(nativeElement.querySelector('div#error')).toBeNull('Alert should not show if emailListErrorSubject is set to null');
 
   });
+
+  it(`should not insert new mail to the top of the list if we are not on the first page`, () => {
+    const testEmail: EmailList[] = [
+      {
+        id: 22,
+        subject: 'Test Data',
+        date: new Date(),
+        from: 'sender1',
+        to: 'recipient1'
+      },
+      {
+        id: 23,
+        subject: 'Test Data 2',
+        date: new Date(),
+        from: 'sender2',
+        to: 'recipient2'
+      },
+      {
+        id: 24,
+        subject: 'Test Data 3',
+        date: new Date(),
+        from: 'sender3',
+        to: 'recipient3'
+      }
+    ];
+
+    const newEmail: EmailList[] = [
+      {
+        id: 25,
+        subject: 'Test Data4',
+        date: new Date(),
+        from: 'sender4',
+        to: 'recipient4'
+      },
+      {
+        id: 26,
+        subject: 'Test Data 5',
+        date: new Date(),
+        from: 'sender5',
+        to: 'recipient5'
+      }
+    ];
+    const itemsPerPage = 2;
+    const nativeElement: HTMLElement = fixture.nativeElement;
+
+    component.emailListSubject.next(testEmail);
+    component.setEmailListPage({page: 2, itemsPerPage});
+
+    expect(component.currentPage).toBe(2);
+    expect(component.numberOfEmailsPerPage).toBe(itemsPerPage);
+    expect(component.emailList.length).toEqual(3, `component.emailList should contain 3 emails`);
+    expect(component.emailListPage.length).toEqual(1, `component.emailList should contain 1 email`);
+
+    fixture.detectChanges();
+
+    let emailList = nativeElement.querySelectorAll('table#email-list tbody tr');
+    expect(emailList.length).toEqual(1, `Should list 1 email`);
+    expect(nativeElement.querySelector('div#error')).toBeNull('Alert should not show if emailListErrorSubject is set to null');
+
+    component.insertNewMailToTheTopOfTheList(newEmail);
+
+    expect(component.emailList.length).toEqual(5, `component.emailList should contain 5 emails`);
+    expect(component.emailListPage.length).toEqual(1, `component.emailList should contain 1 email`);
+
+    fixture.detectChanges();
+
+    emailList = nativeElement.querySelectorAll('table#email-list tbody tr');
+    expect(emailList.length).toEqual(1, `Should list 1 email`);
+    expect(nativeElement.querySelector('div#error')).toBeNull('Alert should not show if emailListErrorSubject is set to null');
+
+  });
+
 });
