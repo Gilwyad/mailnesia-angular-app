@@ -15,8 +15,8 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 })
 export class MailboxListViewComponent implements OnInit, OnDestroy {
   mailbox: string;
-  emailList: EmailList[];     // all emails
-  emailListPage: EmailList[]; // emails on one page
+  emailList: EmailList[] = [];     // all emails
+  emailListPage: EmailList[] = []; // emails on one page
   emailListError: HttpErrors;
   isLoading = true;
   numberOfEmailsPerPage: number;
@@ -41,55 +41,62 @@ export class MailboxListViewComponent implements OnInit, OnDestroy {
     // updated when the URL is modified
     this.route.params.subscribe(
       params => {
+        if (!params.mailbox) {
+          return;
+        }
         this.mailbox = params.mailbox;
-        // load list of emails of this mailbox
-        this.emailListService.getEmailList(this.mailbox).subscribe({
-          next: (data: EmailList[]) => {
-            this.emailList = data.sort((a, b) => b.id < a.id ? -1 : 1);
-            this.isLoading = false;
-            this.emailListError = null;
-            this.noEmail = this.emailList.length === 0;
-
-            this.nameService.selectedEmailListPage.subscribe((page: PageChangedEvent) => {
-              this.currentPage = page.page;
-              this.numberOfEmailsPerPage = page.itemsPerPage;
-              const startItem = (page.page - 1) * page.itemsPerPage;
-              const endItem = page.page * page.itemsPerPage;
-              this.emailListPage = this.emailList.slice(startItem, endItem);
-            });
-          },
-          error: (err: HttpErrors) => {
-            this.emailListError = err;
-            this.isLoading = false;
-            this.noEmail = false;
-          },
-        });
-
-        this.pollForNewMail = setInterval(
-          () => {
-            const newestEmailId = this.emailList[0].id;
-            this.emailListService.pollForNewMail(this.mailbox, newestEmailId).subscribe({
-              next: (data: EmailList[]) => {
-                this.emailListError = null;
-                if (data) {
-                  this.insertNewMailToTheTopOfTheList(data);
-                  this.invalidateEmailListCache();
-                }
-              },
-              error: (err: HttpErrors) => {
-                this.emailListError = err;
-              },
-            });
-          },
-          this.pollForNewMailInterval
-        );
+        this.loadEmails(this.mailbox);
+        this.startPolling(this.mailbox);
       }
     );
 
   }
 
+  /** load list of emails of this mailbox */
+  private loadEmails(mailbox: string) {
+    this.emailListService.getEmailList(mailbox).subscribe({
+      next: (data: EmailList[]) => {
+        this.emailList = data.sort((a, b) => b.id < a.id ? -1 : 1);
+        this.isLoading = false;
+        this.emailListError = null;
+        this.noEmail = this.emailList.length === 0;
+        this.nameService.selectedEmailListPage.subscribe((page: PageChangedEvent) => {
+          this.currentPage = page.page;
+          this.numberOfEmailsPerPage = page.itemsPerPage;
+          const startItem = (page.page - 1) * page.itemsPerPage;
+          const endItem = page.page * page.itemsPerPage;
+          this.emailListPage = this.emailList.slice(startItem, endItem);
+        });
+      },
+      error: (err: HttpErrors) => {
+        this.emailListError = err;
+        this.isLoading = false;
+        this.noEmail = false;
+      },
+    });
+  }
+
+  private startPolling(mailbox: string) {
+    clearInterval(this.pollForNewMail);
+    this.pollForNewMail = setInterval(() => {
+      const newestEmailId = this.emailList.length ? this.emailList[0].id : 1;
+      this.emailListService.pollForNewMail(mailbox, newestEmailId).subscribe({
+        next: (data: EmailList[]) => {
+          this.emailListError = null;
+          if (data) {
+            this.insertNewMailToTheTopOfTheList(data);
+            this.invalidateEmailListCache();
+          }
+        },
+        error: (err: HttpErrors) => {
+          this.emailListError = err;
+        },
+      });
+    }, this.pollForNewMailInterval);
+  }
+
   ngOnDestroy(): void {
-    this.pollForNewMail = null;
+    clearInterval(this.pollForNewMail);
   }
 
   invalidateEmailListCache() {
@@ -101,6 +108,7 @@ export class MailboxListViewComponent implements OnInit, OnDestroy {
       return;
     }
     this.emailList = [...newestMail, ...this.emailList];
+    this.noEmail = false;
     if (this.currentPage === 1) {
       this.emailListPage = this.emailList.slice(0, this.numberOfEmailsPerPage);
     }
@@ -119,7 +127,7 @@ export class MailboxListViewComponent implements OnInit, OnDestroy {
     this.modalRef = this.modalService.show(template);
   }
 
-  // deleteAllEmails() {
-
-  // }
+  deleteAllEmails() {
+    throw new Error(('not implemented'));
+  }
 }

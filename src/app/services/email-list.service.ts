@@ -26,7 +26,7 @@ export class EmailListService {
       );
   }
 
-  pollForNewMail(mailboxName: string, id: number): Observable<EmailList[] | string | HttpErrors> {
+  pollForNewMail(mailboxName: string, id = 0): Observable<EmailList[] | string | HttpErrors> {
     return this.httpClientSkipInterceptor.get<EmailList[]>(`${this.url}/mailbox/${mailboxName}?newerthan=${id}`)
       .pipe(
         catchError(err => this.handleHttpError(err))

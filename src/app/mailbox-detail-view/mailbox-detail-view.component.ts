@@ -64,7 +64,7 @@ export class MailboxDetailViewComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
-  // deleteEmail() {
-
-  // }
+  deleteEmail() {
+    throw new Error(('not implemented'));
+  }
 }
