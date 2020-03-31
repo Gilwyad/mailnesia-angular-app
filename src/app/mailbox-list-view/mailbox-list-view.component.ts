@@ -92,6 +92,7 @@ export class MailboxListViewComponent implements OnInit, OnDestroy {
         this.emailListSubject.next(data.sort((a, b) => b.id < a.id ? -1 : 1));
       },
       error: (err: HttpErrors) => {
+        this.emailListSubject.next([]);
         this.emailListErrorSubject.next(err);
       },
     });
