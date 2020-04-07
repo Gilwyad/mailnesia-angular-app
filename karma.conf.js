@@ -29,6 +29,12 @@ module.exports = function (config) {
     singleRun: false,
     browserDisconnectTolerance: 1,
     browserNoActivityTimeout: 50000,
-    restartOnFileChange: true
+    restartOnFileChange: true,
+    customLaunchers: {
+      ChromeHeadlessCustom: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox', '--disable-gpu']
+      }
+    }
   });
 };
