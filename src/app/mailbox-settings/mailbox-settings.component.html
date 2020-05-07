@@ -8,6 +8,28 @@
   </a>
 </div>
 
+<h4>Alias settings</h4>
 <p>
-  <span class="badge badge-pill badge-danger">Warning</span>Not implemented
+  <span class="badge badge-pill badge-danger">Warning</span>Alias configuration not implemented
 </p>
+
+<h4>Recent visitors of this mailbox</h4>
+<p>Note that the times are in your local time zone.</p>
+<table id="visitor-list" class="table" *ngIf="visitorList?.length">
+  <thead class="thead-light">
+    <tr>
+      <th style="width: 30%;" class="d-none d-sm-table-cell">Date</th>
+      <th style="width: 20%;" class="d-none d-sm-table-cell">IP</th>
+      <th style="width: 50%;">User Agent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-template ngFor let-visitor [ngForOf]="visitorList">
+      <tr>
+        <td class="d-none d-sm-table-cell">{{visitor.timeStamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+        <td class="d-none d-sm-table-cell"><a href="https://whatismyipaddress.com/ip/{{visitor.ip}}">{{visitor.ip}}</a></td>
+        <td>{{visitor.userAgent}}</td>
+      </tr>
+    </ng-template>
+  </tbody>
+</table>
