@@ -153,4 +153,41 @@ describe('EmailListService', () => {
     });
   });
 
+  it('should wipe a mailbox', () => {
+    service.wipeMailbox('test').subscribe({
+      next: (data: void) => {
+        expect(data).toEqual(null);
+      }
+    });
+
+    // The following `expectOne()` will match the request's URL.
+    // If no requests or multiple requests matched that URL
+    // `expectOne()` would throw.
+    const request = httpTestingController.expectOne('/api/mailbox/test');
+
+    // Assert that the request is a DELETE.
+    expect(request.request.method).toEqual('DELETE');
+
+    // Respond with mock data, causing Observable to resolve.
+    // Subscribe callback asserts that correct data was returned.
+    request.flush(null);
+  });
+
+  it('wipe mailbox error', () => {
+    service.wipeMailbox('test').subscribe({
+      next: (data: void) => fail('this should have been an error'),
+      error: (data: HttpErrors) => {
+        expect(data.code).toEqual(500);
+        expect(data.message).toEqual('error');
+        expect(data.serverMessage).toContain('Server Error');
+      }
+    });
+    const request = httpTestingController.expectOne('/api/mailbox/test');
+    request.flush('error', {
+      status: 500,
+      statusText: 'Server Error',
+    });
+
+  });
+
 });

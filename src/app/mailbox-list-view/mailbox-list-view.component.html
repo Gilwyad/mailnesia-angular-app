@@ -63,10 +63,10 @@
   </div>
   <div class="modal-body">
     <p>Are you sure you want to delete all emails in this mailbox?</p>
-    <p>
-      <span class="badge badge-pill badge-danger">Warning</span>Not implemented
-    </p>
-    <button type="button" class="btn btn-danger" disabled (click)="deleteAllEmails()" >Delete</button>
+    <button type="button" class="btn btn-danger" (click)="deleteAllEmails()" >Delete</button>
     <button type="button" class="btn btn-light" (click)="modalRef.hide()" >Cancel</button>
+    <p *ngIf="deleteError">
+      <span class="badge badge-pill badge-danger">Error</span>Failed to delete emails!
+    </p>
   </div>
 </ng-template>

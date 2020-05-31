@@ -4,6 +4,7 @@ import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 import { EmailService } from '../services/email.service';
 import {Location} from '@angular/common';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { HttpCacheService } from '../services/http-cache.service';
 
 @Component({
   selector: 'app-mailbox-detail-view',
@@ -19,12 +20,14 @@ export class MailboxDetailViewComponent implements OnInit {
   selectedTab = 'text_html';
   emailError: boolean;
   modalRef: BsModalRef;
+  deleteError = false;
 
   constructor(
     private route: ActivatedRoute,
     private emailService: EmailService,
     private location: Location,
     private modalService: BsModalService,
+    private cacheService: HttpCacheService,
   ) { }
 
   ngOnInit() {
@@ -64,7 +67,21 @@ export class MailboxDetailViewComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  invalidateEmailListCache() {
+    this.cacheService.delete(`${this.emailService.url}/mailbox/${this.mailbox}`);
+  }
+
   deleteEmail() {
-    throw new Error(('not implemented'));
+    this.emailService.deleteEmail(this.mailbox, this.emailId).subscribe({
+      next: () => {
+        this.modalRef.hide();
+        this.invalidateEmailListCache();
+        this.deleteError = false;
+        this.goBack();
+      },
+      error: (err: any) => {
+        this.deleteError = true;
+      }
+    });
   }
 }

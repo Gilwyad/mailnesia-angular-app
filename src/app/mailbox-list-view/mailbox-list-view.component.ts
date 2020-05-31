@@ -28,6 +28,7 @@ export class MailboxListViewComponent implements OnInit, OnDestroy {
   pollForNewMail;
   noEmail = false;
   modalRef: BsModalRef;
+  deleteError = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -155,6 +156,16 @@ export class MailboxListViewComponent implements OnInit, OnDestroy {
   }
 
   deleteAllEmails() {
-    throw new Error(('not implemented'));
+    this.emailListService.wipeMailbox(this.mailbox).subscribe({
+      next: () => {
+        this.invalidateEmailListCache();
+        this.emailListSubject.next([]);
+        this.deleteError = false;
+        this.modalRef.hide();
+      },
+      error: (err: HttpErrors) => {
+        this.deleteError = true;
+      },
+    });
   }
 }

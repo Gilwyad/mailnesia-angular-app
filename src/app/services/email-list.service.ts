@@ -20,7 +20,7 @@ export class EmailListService {
 
   /** Load list of emails */
   getEmailList(mailboxName: string): Observable<EmailList[] | HttpErrors> {
-    return this.http.get<EmailList[]>(`${environment.backendApiUrl}/mailbox/${mailboxName}`)
+    return this.http.get<EmailList[]>(`${this.url}/mailbox/${mailboxName}`)
       .pipe(
         catchError(err => this.handleHttpError(err))
       );
@@ -28,6 +28,14 @@ export class EmailListService {
 
   pollForNewMail(mailboxName: string, id = 0): Observable<EmailList[] | string | HttpErrors> {
     return this.httpClientSkipInterceptor.get<EmailList[]>(`${this.url}/mailbox/${mailboxName}?newerthan=${id}`)
+      .pipe(
+        catchError(err => this.handleHttpError(err))
+      );
+  }
+
+  /** delete all emails in inbox */
+  wipeMailbox(mailboxName: string): Observable<void | HttpErrors> {
+    return this.http.delete<void>(`${this.url}/mailbox/${mailboxName}`)
       .pipe(
         catchError(err => this.handleHttpError(err))
       );

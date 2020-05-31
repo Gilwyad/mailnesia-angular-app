@@ -34,10 +34,10 @@
   </div>
   <div class="modal-body">
     <p>Are you sure you want to delete the displayed email?</p>
-    <p>
-      <span class="badge badge-pill badge-danger">Warning</span>Not implemented
-    </p>
-    <button type="button" class="btn btn-danger" disabled (click)="deleteEmail()" >Delete</button>
+    <button type="button" class="btn btn-danger" (click)="deleteEmail()" >Delete</button>
     <button type="button" class="btn btn-light" (click)="modalRef.hide()" >Cancel</button>
+    <p *ngIf="deleteError">
+      <span class="badge badge-pill badge-danger">Error</span>Failed to delete email!
+    </p>
   </div>
 </ng-template>
