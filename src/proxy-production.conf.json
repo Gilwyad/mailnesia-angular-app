@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "target": "https://m.mailnesia.com",
+    "secure": true,
+    "changeOrigin": true
+  }
+}
