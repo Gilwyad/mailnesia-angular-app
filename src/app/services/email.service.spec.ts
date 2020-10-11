@@ -14,8 +14,8 @@ describe('EmailService', () => {
       HttpClientTestingModule,
     ]});
 
-    service = TestBed.get(EmailService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    service = TestBed.inject(EmailService);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {

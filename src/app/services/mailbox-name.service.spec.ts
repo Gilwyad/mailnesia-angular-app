@@ -6,14 +6,14 @@ describe('MailboxNameService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: MailboxNameService = TestBed.get(MailboxNameService);
+    const service: MailboxNameService = TestBed.inject(MailboxNameService);
     expect(service).toBeTruthy();
   });
 
   it('can save mailbox', done => {
     const name = 'test1';
-    const firstService: MailboxNameService = TestBed.get(MailboxNameService);
-    const secondService: MailboxNameService = TestBed.get(MailboxNameService);
+    const firstService: MailboxNameService = TestBed.inject(MailboxNameService);
+    const secondService: MailboxNameService = TestBed.inject(MailboxNameService);
     firstService.changeMailboxName(name);
     secondService.selectedMailboxName.subscribe(result => {
       expect(result).toBe(name);

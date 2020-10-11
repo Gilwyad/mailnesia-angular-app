@@ -7,12 +7,12 @@ describe('HttpCacheService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: HttpCacheService = TestBed.get(HttpCacheService);
+    const service: HttpCacheService = TestBed.inject(HttpCacheService);
     expect(service).toBeTruthy();
   });
 
   it('service CRUD', () => {
-    const service: HttpCacheService = TestBed.get(HttpCacheService);
+    const service: HttpCacheService = TestBed.inject(HttpCacheService);
     const testResponse: HttpResponse<string> = new HttpResponse({body: 'test1'});
     service.set('test1', testResponse);
     expect(service.get('test1')).toEqual(testResponse);

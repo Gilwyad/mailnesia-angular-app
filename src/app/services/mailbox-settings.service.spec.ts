@@ -14,8 +14,8 @@ describe('MailboxSettingsService', () => {
         HttpClientTestingModule,
       ],
     });
-    service = TestBed.get(MailboxSettingsService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    service = TestBed.inject(MailboxSettingsService);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {

@@ -29,9 +29,9 @@ describe('CacheInterceptorService', () => {
       ]
     });
 
-    httpMock = TestBed.get(HttpTestingController);
-    http = TestBed.get(HttpClient);
-    cacheService = TestBed.get(HttpCacheService);
+    httpMock = TestBed.inject(HttpTestingController);
+    http = TestBed.inject(HttpClient);
+    cacheService = TestBed.inject(HttpCacheService);
   });
 
   afterEach(() => {
@@ -40,7 +40,7 @@ describe('CacheInterceptorService', () => {
 
 
   it('should be created', () => {
-    const service: CacheInterceptor = TestBed.get(CacheInterceptor);
+    const service: CacheInterceptor = TestBed.inject(CacheInterceptor);
     expect(service).toBeTruthy();
   });
 

@@ -17,8 +17,8 @@ describe('EmailListService', () => {
       ]
     });
 
-    service = TestBed.get(EmailListService);
-    httpTestingController = TestBed.get(HttpTestingController);
+    service = TestBed.inject(EmailListService);
+    httpTestingController = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {
