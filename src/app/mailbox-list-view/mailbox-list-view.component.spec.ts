@@ -2,7 +2,7 @@ import { TimeAgoPipe } from 'time-ago-pipe';
 import { BypassSecurityPipe } from './../bypass-security.pipe';
 import { MailboxDetailViewComponent } from './../mailbox-detail-view/mailbox-detail-view.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { async, ComponentFixture, TestBed, ComponentFixtureAutoDetect } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed, ComponentFixtureAutoDetect } from '@angular/core/testing';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { MailboxListViewComponent } from './mailbox-list-view.component';
@@ -14,7 +14,7 @@ describe('MailboxListViewComponent', () => {
   let component: MailboxListViewComponent;
   let fixture: ComponentFixture<MailboxListViewComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         MailboxListViewComponent,

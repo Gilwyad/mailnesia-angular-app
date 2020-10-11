@@ -1,5 +1,5 @@
 import { ReactiveFormsModule } from '@angular/forms';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MailboxNavigationFormComponent } from './mailbox-navigation-form.component';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -7,7 +7,7 @@ describe('MailboxNavigationFormComponent', () => {
   let component: MailboxNavigationFormComponent;
   let fixture: ComponentFixture<MailboxNavigationFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,

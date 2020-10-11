@@ -1,6 +1,6 @@
 import { Email } from './../types/email.model';
 import { RouterTestingModule } from '@angular/router/testing';
-import { async, ComponentFixture, TestBed, ComponentFixtureAutoDetect } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed, ComponentFixtureAutoDetect } from '@angular/core/testing';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { MailboxDetailViewComponent } from './mailbox-detail-view.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -10,7 +10,7 @@ describe('MailboxDetailViewComponent', () => {
   let component: MailboxDetailViewComponent;
   let fixture: ComponentFixture<MailboxDetailViewComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         MailboxDetailViewComponent,
