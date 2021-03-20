@@ -86,45 +86,12 @@ export class MailboxListViewComponent implements OnInit, OnDestroy {
 
 }
 
-  /** load list of emails of this mailbox */
-  private loadEmails(mailbox: string) {
-    this.emailListService.getEmailList(mailbox).subscribe({
-      next: (data: EmailList[]) => {
-        this.emailListSubject.next(data.sort((a, b) => b.id < a.id ? -1 : 1));
-      },
-      error: (err: HttpErrors) => {
-        this.emailListSubject.next([]);
-        this.emailListErrorSubject.next(err);
-      },
-    });
-  }
-
   setEmailListPage(page: PageChangedEvent) {
     this.currentPage = page.page;
     this.numberOfEmailsPerPage = page.itemsPerPage;
     const startItem = (page.page - 1) * page.itemsPerPage;
     const endItem = page.page * page.itemsPerPage;
     this.emailListPage = this.emailList.slice(startItem, endItem);
-  }
-
-  private startPolling(mailbox: string) {
-    clearInterval(this.pollForNewMail);
-    this.pollForNewMail = setInterval(() => {
-      const newestEmailId = this.emailList.length ? this.emailList[0].id : 1;
-      this.emailListService.pollForNewMail(mailbox, newestEmailId).subscribe({
-        next: (data: EmailList[]) => {
-          this.emailListErrorSubject.next(null);
-
-          if (data) {
-            this.insertNewMailToTheTopOfTheList(data);
-            this.invalidateEmailListCache();
-          }
-        },
-        error: (err: HttpErrors) => {
-          this.emailListErrorSubject.next(err);
-        },
-      });
-    }, this.pollForNewMailInterval);
   }
 
   ngOnDestroy(): void {
@@ -168,4 +135,38 @@ export class MailboxListViewComponent implements OnInit, OnDestroy {
       },
     });
   }
+
+  /** load list of emails of this mailbox */
+  private loadEmails(mailbox: string) {
+    this.emailListService.getEmailList(mailbox).subscribe({
+      next: (data: EmailList[]) => {
+        this.emailListSubject.next(data.sort((a, b) => b.id < a.id ? -1 : 1));
+      },
+      error: (err: HttpErrors) => {
+        this.emailListSubject.next([]);
+        this.emailListErrorSubject.next(err);
+      },
+    });
+  }
+
+  private startPolling(mailbox: string) {
+    clearInterval(this.pollForNewMail);
+    this.pollForNewMail = setInterval(() => {
+      const newestEmailId = this.emailList.length ? this.emailList[0].id : 1;
+      this.emailListService.pollForNewMail(mailbox, newestEmailId).subscribe({
+        next: (data: EmailList[]) => {
+          this.emailListErrorSubject.next(null);
+
+          if (data) {
+            this.insertNewMailToTheTopOfTheList(data);
+            this.invalidateEmailListCache();
+          }
+        },
+        error: (err: HttpErrors) => {
+          this.emailListErrorSubject.next(err);
+        },
+      });
+    }, this.pollForNewMailInterval);
+  }
+
 }

@@ -6,8 +6,8 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class MailboxNameService {
-  private mailboxName = new BehaviorSubject('');
-  private currentEmailListPage = new BehaviorSubject<PageChangedEvent>({
+  mailboxName = new BehaviorSubject('');
+  currentEmailListPage = new BehaviorSubject<PageChangedEvent>({
     page: 1,
     itemsPerPage: 10
   });

@@ -9,9 +9,7 @@ describe('CacheInterceptorService', () => {
   let http: HttpClient;
   let cacheService: HttpCacheService;
 
-  function createInterceptor(httpCacheService: HttpCacheService) {
-    return new CacheInterceptor(httpCacheService);
-  }
+  const createInterceptor = (httpCacheService: HttpCacheService) => new CacheInterceptor(httpCacheService);
 
   beforeEach(() => {
     TestBed.configureTestingModule({

@@ -12,8 +12,8 @@ import { HttpCacheService } from '../services/http-cache.service';
   styleUrls: ['./mailbox-detail-view.component.less']
 })
 export class MailboxDetailViewComponent implements OnInit {
-  mailbox: string;
   @Input() emailId: number;
+  mailbox: string;
   email: Email;
   objectKeys = Object.keys;
   isLoading = true;
