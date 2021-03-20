@@ -72,8 +72,8 @@ describe('MailboxDetailViewComponent', () => {
 
   it(`should show email`, () => {
     const testData: Email = {
-      text_html: '<b>html test</b>',
-      text_plain: 'plain test'
+      textHtml: '<b>html test</b>',
+      textPlain: 'plain test'
     };
     const nativeElement: HTMLElement = fixture.nativeElement;
 
@@ -89,8 +89,8 @@ describe('MailboxDetailViewComponent', () => {
 
   it(`should show email tabs and they can be switched`, () => {
     const testData: Email = {
-      text_html: '<b>html test</b>',
-      text_plain: 'plain test'
+      textHtml: '<b>html test</b>',
+      textPlain: 'plain test'
     };
     const nativeElement: HTMLElement = fixture.nativeElement;
 
@@ -100,7 +100,7 @@ describe('MailboxDetailViewComponent', () => {
     let emailDiv = nativeElement.querySelector('div#mailnesiaHtmlEmailContent');
     expect(emailDiv.textContent).toBe('html test');
 
-    component.setSelectedTab('text_plain');
+    component.setSelectedTab('textPlain');
     fixture.detectChanges();
     emailDiv = nativeElement.querySelector('div#mailnesiaHtmlEmailContent');
     expect(emailDiv.textContent).toBe('plain test');

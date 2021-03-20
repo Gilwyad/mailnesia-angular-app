@@ -29,8 +29,8 @@ describe('EmailService', () => {
 
   it('should return an email for mailbox test', () => {
     const testData: Email = {
-      text_html: '<b>html test</b>',
-      text_plain: 'plain test'
+      textHtml: '<b>html test</b>',
+      textPlain: 'plain test'
     };
     service.getEmail('test', 22).subscribe({
       next: (data: Email) => {

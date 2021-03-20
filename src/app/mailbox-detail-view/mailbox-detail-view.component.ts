@@ -17,7 +17,7 @@ export class MailboxDetailViewComponent implements OnInit {
   email: Email;
   objectKeys = Object.keys;
   isLoading = true;
-  selectedTab = 'text_html';
+  selectedTab = 'textHtml';
   emailError: boolean;
   modalRef: BsModalRef;
   deleteError = false;
@@ -40,7 +40,7 @@ export class MailboxDetailViewComponent implements OnInit {
         this.emailService.getEmail(this.mailbox, this.emailId).subscribe({
           next: (data: Email) => {
             this.email = data;
-            if (!data.hasOwnProperty('text_html')) {
+            if (!data.hasOwnProperty('textHtml')) {
               this.setSelectedTab(Object.keys(data)[0]);
             }
             this.isLoading = this.emailError = false;
