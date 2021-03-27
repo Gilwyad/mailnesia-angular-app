@@ -1,0 +1,15 @@
+<h3>Site wide settings</h3>
+<h4>Save mailbox</h4>
+
+<div class="custom-control custom-switch">
+  <input
+  #saveMailboxCheckBox
+  type="checkbox"
+  class="custom-control-input"
+  id="saveMailbox"
+  [ngModel]="saveLastViewedMailbox"
+  (change)="toggleSaveMailbox(saveMailboxCheckBox.checked)"
+  [ngModelOptions]="{standalone: true}"/>
+
+  <label class="custom-control-label" for="saveMailbox">Save last viewed mailbox name to your browser</label>
+</div>

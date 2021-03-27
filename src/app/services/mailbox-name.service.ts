@@ -1,5 +1,5 @@
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -23,7 +23,16 @@ export class MailboxNameService {
 
   changeMailboxName(name: string) {
     this.mailboxName.next(name);
-    localStorage.setItem('mailbox', name);
+    if (localStorage.getItem('saveLastViewedMailbox')) {
+      localStorage.setItem('mailbox', name);
+    }
+  }
+
+  /**
+   * return the currently saved mailbox name
+   */
+  getMailboxName(): string {
+    return this.mailboxName.getValue();
   }
 
   changeCurrentEmailListPage(page: PageChangedEvent) {

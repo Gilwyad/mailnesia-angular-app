@@ -17,6 +17,8 @@ describe('MailboxNameService', () => {
     firstService.changeMailboxName(name);
     secondService.selectedMailboxName.subscribe(result => {
       expect(result).toBe(name);
+      expect(firstService.getMailboxName()).toBe(name);
+      expect(secondService.getMailboxName()).toBe(name);
       done();
     });
   });

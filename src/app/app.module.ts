@@ -19,6 +19,7 @@ import { filter } from 'rxjs/operators';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TimeAgoPipe } from 'time-ago-pipe';
+import { SettingsComponent } from './settings/settings.component';
 
 @Pipe({
   name: 'timeAgo',
@@ -41,7 +42,8 @@ export class TimeAgoExtendsPipe extends TimeAgoPipe implements PipeTransform {
     MailboxFormComponent,
     MailboxNavigationFormComponent,
     BypassSecurityPipe,
-    TimeAgoExtendsPipe
+    TimeAgoExtendsPipe,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

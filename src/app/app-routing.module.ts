@@ -6,6 +6,7 @@ import { MailboxDetailViewComponent } from './mailbox-detail-view/mailbox-detail
 import { MainPageComponent } from './main-page/main-page.component';
 import { Meta, Title, MetaDefinition } from '@angular/platform-browser';
 import { filter, map } from 'rxjs/operators';
+import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,15 @@ const routes: Routes = [
       metaDescription:
         'Disposable email at its best. No registration or password. HTML & attachment support. Automatically clicks registration links.',
       noIndex: false
+    }
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent,
+    data: {
+      title: 'Mailnesia - Site wide settings',
+      metaDescription: 'Mailnesia site wide settings',
+      noIndex: true
     }
   },
   {
