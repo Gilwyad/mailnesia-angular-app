@@ -1,5 +1,5 @@
 export interface EmailList {
-    date: Date;
+    date: string;
     from: string;
     subject: string;
     to: string;

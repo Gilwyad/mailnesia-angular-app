@@ -26,7 +26,7 @@
   <div class="col-xs-12 col-12">
     <pagination [totalItems]="emailList.length"
     (pageChanged)="pageChanged($event)"
-    rotate="true"
+    [rotate]
     [maxSize]="10"
     [(ngModel)]="currentPage"
     [itemsPerPage]="numberOfEmailsPerPage"></pagination>

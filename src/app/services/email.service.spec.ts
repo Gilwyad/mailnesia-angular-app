@@ -54,7 +54,7 @@ describe('EmailService', () => {
 
   it('should return error', () => {
     service.getEmail('test', 23).subscribe({
-      next: (data: Email) => fail('this should have been an error'),
+      next: () => fail('this should have been an error'),
       error: (data: HttpErrors) => {
         expect(data.code).toEqual(500);
         expect(data.message).toEqual('error');
@@ -91,7 +91,7 @@ describe('EmailService', () => {
 
   it('delete an email should return error', () => {
     service.deleteEmail('test', 23).subscribe({
-      next: (data: void) => fail('this should have been an error'),
+      next: () => fail('this should have been an error'),
       error: (data: HttpErrors) => {
         expect(data.code).toEqual(500);
         expect(data.message).toEqual('error');

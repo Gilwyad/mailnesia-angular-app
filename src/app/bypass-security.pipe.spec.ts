@@ -1,5 +1,4 @@
-import { TestBed } from '@angular/core/testing';
-import { DomSanitizer, BrowserModule } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { BypassSecurityPipe } from './bypass-security.pipe';
 import { inject } from '@angular/core/testing';
 

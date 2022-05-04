@@ -34,7 +34,7 @@ describe('SettingsComponent', () => {
   });
 
   beforeEach(() => {
-    const store = {};
+    const store = Object();
 
     spyOn(localStorage, 'getItem').and.callFake((key: string) => store[key] || null);
     spyOn(localStorage, 'setItem').and.callFake((key: string, value: string) => store[key] = value + '');

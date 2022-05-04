@@ -50,16 +50,16 @@
     "puppeteer": "2.1.1",
     "ts-node": "7.0.0",
     "typescript": "4.4.4",
-    "eslint": "^7.6.0",
-    "eslint-plugin-import": "2.22.1",
-    "eslint-plugin-jsdoc": "30.7.6",
-    "eslint-plugin-prefer-arrow": "1.2.2",
-    "@angular-eslint/builder": "1.2.0",
-    "@angular-eslint/eslint-plugin": "1.2.0",
-    "@angular-eslint/eslint-plugin-template": "1.2.0",
-    "@angular-eslint/schematics": "1.2.0",
-    "@angular-eslint/template-parser": "1.2.0",
-    "@typescript-eslint/eslint-plugin": "4.3.0",
-    "@typescript-eslint/parser": "4.3.0"
+    "eslint": "8.3.0",
+    "eslint-plugin-import": "2.25.3",
+    "eslint-plugin-jsdoc": "37.0.3",
+    "eslint-plugin-prefer-arrow": "1.2.3",
+    "@angular-eslint/builder": "13.0.1",
+    "@angular-eslint/eslint-plugin": "13.0.1",
+    "@angular-eslint/eslint-plugin-template": "13.0.1",
+    "@angular-eslint/schematics": "13.0.1",
+    "@angular-eslint/template-parser": "13.0.1",
+    "@typescript-eslint/eslint-plugin": "5.4.0",
+    "@typescript-eslint/parser": "5.4.0"
   }
 }
