@@ -19,7 +19,7 @@
 
 <ul class="nav nav-tabs" *ngIf="email">
   <li class="nav-item" *ngFor="let tab of objectKeys(email)">
-    <a class="nav-link" [ngClass]="{'active': selectedTab===tab}" (click)=setSelectedTab(tab)>{{tab}}</a>
+    <a class="nav-link" [ngClass]="{'active': selectedTab===tab}" (click)=setSelectedTab($any(tab))>{{tab}}</a>
   </li>
 </ul>
 
