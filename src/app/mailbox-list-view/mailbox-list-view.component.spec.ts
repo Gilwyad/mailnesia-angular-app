@@ -107,14 +107,14 @@ describe('MailboxListViewComponent', () => {
       {
         id: 22,
         subject: 'Test Data',
-        date: new Date(),
+        date: '2011-01-01 11:11:11+00:00',
         from: 'sender1',
         to: 'recipient1'
       },
       {
         id: 23,
         subject: 'Test Data 2',
-        date: new Date(),
+        date: '2011-01-01 11:11:11+00:00',
         from: 'sender2',
         to: 'recipient2'
       }
@@ -135,14 +135,14 @@ describe('MailboxListViewComponent', () => {
       {
         id: 22,
         subject: 'Test Data',
-        date: new Date(),
+        date: '2011-01-01 11:11:11+00:00',
         from: 'sender1',
         to: 'recipient1'
       },
       {
         id: 23,
         subject: 'Test Data 2',
-        date: new Date(),
+        date: '2011-01-01 11:11:11+00:00',
         from: 'sender2',
         to: 'recipient2'
       }
@@ -172,14 +172,14 @@ describe('MailboxListViewComponent', () => {
       {
         id: 22,
         subject: 'Test Data',
-        date: new Date(),
+        date: '2011-01-01 11:11:11+00:00',
         from: 'sender1',
         to: 'recipient1'
       },
       {
         id: 23,
         subject: 'Test Data 2',
-        date: new Date(),
+        date: '2011-01-01 11:11:11+00:00',
         from: 'sender2',
         to: 'recipient2'
       }
@@ -189,14 +189,14 @@ describe('MailboxListViewComponent', () => {
       {
         id: 24,
         subject: 'Test Data3',
-        date: new Date(),
+        date: '2011-01-01 11:11:11+00:00',
         from: 'sender3',
         to: 'recipient3'
       },
       {
         id: 25,
         subject: 'Test Data 4',
-        date: new Date(),
+        date: '2011-01-01 11:11:11+00:00',
         from: 'sender4',
         to: 'recipient4'
       }
@@ -224,21 +224,21 @@ describe('MailboxListViewComponent', () => {
       {
         id: 22,
         subject: 'Test Data',
-        date: new Date(),
+        date: '2011-01-01 11:11:11+00:00',
         from: 'sender1',
         to: 'recipient1'
       },
       {
         id: 23,
         subject: 'Test Data 2',
-        date: new Date(),
+        date: '2011-01-01 11:11:11+00:00',
         from: 'sender2',
         to: 'recipient2'
       },
       {
         id: 24,
         subject: 'Test Data 3',
-        date: new Date(),
+        date: '2011-01-01 11:11:11+00:00',
         from: 'sender3',
         to: 'recipient3'
       }
@@ -248,14 +248,14 @@ describe('MailboxListViewComponent', () => {
       {
         id: 25,
         subject: 'Test Data4',
-        date: new Date(),
+        date: '2011-01-01 11:11:11+00:00',
         from: 'sender4',
         to: 'recipient4'
       },
       {
         id: 26,
         subject: 'Test Data 5',
-        date: new Date(),
+        date: '2011-01-01 11:11:11+00:00',
         from: 'sender5',
         to: 'recipient5'
       }
