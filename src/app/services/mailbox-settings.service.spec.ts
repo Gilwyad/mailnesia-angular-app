@@ -63,7 +63,7 @@ describe('MailboxSettingsService', () => {
 
   it('should return error', () => {
     service.getVisitorList('test').subscribe({
-      next: (data: VisitorList[]) => fail('this should have been an error'),
+      next: () => fail('this should have been an error'),
       error: (data: HttpErrors) => {
         expect(data.code).toEqual(500);
         expect(data.message).toEqual('error');

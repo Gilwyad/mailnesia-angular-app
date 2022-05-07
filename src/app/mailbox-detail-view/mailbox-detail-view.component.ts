@@ -17,7 +17,7 @@ export class MailboxDetailViewComponent implements OnInit {
   email: Email;
   objectKeys = Object.keys;
   isLoading = true;
-  selectedTab = 'textHtml';
+  selectedTab: keyof Email = 'textHtml';
   emailError: boolean;
   modalRef: BsModalRef;
   deleteError = false;
@@ -41,11 +41,11 @@ export class MailboxDetailViewComponent implements OnInit {
           next: (data: Email) => {
             this.email = data;
             if (!data.hasOwnProperty('textHtml')) {
-              this.setSelectedTab(Object.keys(data)[0]);
+              this.setSelectedTab('textPlain');
             }
             this.isLoading = this.emailError = false;
           },
-          error: (err: any) => {
+          error: () => {
             this.isLoading = false;
             this.emailError = true;
             this.email = null;
@@ -55,7 +55,7 @@ export class MailboxDetailViewComponent implements OnInit {
     );
   }
 
-  setSelectedTab(name: string) {
+  setSelectedTab(name: keyof Email) {
     this.selectedTab = name;
   }
 
@@ -79,7 +79,7 @@ export class MailboxDetailViewComponent implements OnInit {
         this.deleteError = false;
         this.goBack();
       },
-      error: (err: any) => {
+      error: () => {
         this.deleteError = true;
       }
     });

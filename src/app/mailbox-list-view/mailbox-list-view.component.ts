@@ -25,7 +25,7 @@ export class MailboxListViewComponent implements OnInit, OnDestroy {
   numberOfEmailsPerPage: number;
   currentPage: number;
   pollForNewMailInterval = 60000;
-  pollForNewMail;
+  pollForNewMail: NodeJS.Timeout;
   noEmail = false;
   modalRef: BsModalRef;
   deleteError = false;
@@ -130,7 +130,7 @@ export class MailboxListViewComponent implements OnInit, OnDestroy {
         this.deleteError = false;
         this.modalRef.hide();
       },
-      error: (err: HttpErrors) => {
+      error: () => {
         this.deleteError = true;
       },
     });

@@ -13,7 +13,7 @@ export class MailboxSettingsService {
 
   httpClientSkipInterceptor: HttpClient;
 
-  constructor(private http: HttpClient, handler: HttpBackend) {
+  constructor(handler: HttpBackend) {
     this.httpClientSkipInterceptor = new HttpClient(handler);
   }
 

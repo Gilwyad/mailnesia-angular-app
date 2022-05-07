@@ -35,14 +35,14 @@ describe('EmailListService', () => {
       {
         id: 22,
         subject: 'Test Data',
-        date: new Date(),
+        date: '2011-01-01 11:11:11+00:00',
         from: 'sender1',
         to: 'recipient1'
       },
       {
         id: 23,
         subject: 'Test Data 2',
-        date: new Date(),
+        date: '2011-01-01 11:11:11+00:00',
         from: 'sender2',
         to: 'recipient2'
       }
@@ -70,7 +70,7 @@ describe('EmailListService', () => {
 
   it('should return error', () => {
     service.getEmailList('test').subscribe({
-      next: (data: EmailList[]) => fail('this should have been an error'),
+      next: () => fail('this should have been an error'),
       error: (data: HttpErrors) => {
         expect(data.code).toEqual(500);
         expect(data.message).toEqual('error');
@@ -91,14 +91,14 @@ describe('EmailListService', () => {
       {
         id: 22,
         subject: 'Test Data',
-        date: new Date(),
+        date: '2011-01-01 11:11:11+00:00',
         from: 'sender1',
         to: 'recipient1'
       },
       {
         id: 23,
         subject: 'Test Data 2',
-        date: new Date(),
+        date: '2011-01-01 11:11:11+00:00',
         from: 'sender2',
         to: 'recipient2'
       }
@@ -126,7 +126,7 @@ describe('EmailListService', () => {
 
   it('should return error for email poll', () => {
     service.pollForNewMail('test', 21).subscribe({
-      next: (data: EmailList[]) => fail('this should have been an error'),
+      next: () => fail('this should have been an error'),
       error: (data: HttpErrors) => {
         expect(data.code).toEqual(500);
         expect(data.message).toEqual('error');
@@ -175,7 +175,7 @@ describe('EmailListService', () => {
 
   it('wipe mailbox error', () => {
     service.wipeMailbox('test').subscribe({
-      next: (data: void) => fail('this should have been an error'),
+      next: () => fail('this should have been an error'),
       error: (data: HttpErrors) => {
         expect(data.code).toEqual(500);
         expect(data.message).toEqual('error');

@@ -3,7 +3,6 @@ import { MailboxSettingsService } from './../services/mailbox-settings.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import {Location} from '@angular/common';
-import { HttpErrors } from '../types/http-errors.model';
 
 @Component({
   selector: 'app-mailbox-settings',
@@ -29,7 +28,7 @@ export class MailboxSettingsComponent implements OnInit {
           next: (res: VisitorList[]) => {
             this.visitorList = res;
           },
-          error: (err: HttpErrors) => {
+          error: () => {
             this.error = true;
           },
         });

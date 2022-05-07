@@ -9,7 +9,7 @@ export class BypassSecurityPipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) {
   }
 
-  transform(value: any, args?: any): any {
+  transform(value: any): any {
     return this.sanitizer.bypassSecurityTrustHtml(value);
   }
 
