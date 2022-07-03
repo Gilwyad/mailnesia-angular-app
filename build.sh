@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -eo pipefail
 
 function show_help() {
   cat <<EOF
@@ -21,18 +20,30 @@ Example $0 -bpi minor
 EOF
 }
 
+# Note that if a function output is captured like result=$(the_function), this means the_function runs in a subshell,
+# therefore even if it contains `exit 1`, that only exits the subshell (not the main script), and the result would be
+# empty.
+
 dockerhub_username=denokera
+semver_regex='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$'
 
 function verify_version() {
-  local VERSION="${1}"
-  local semver_regex='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$'
-  [[ $VERSION =~ $semver_regex ]]
+  if ! [[ ${1} =~ $semver_regex ]]
+  then
+    >&2 echo "ERROR: image version \'$IMAGE_VERSION\' is not a valid version!"
+    exit 1
+  fi
 }
 
-# return the highest version git tag
-# example: 1.0.0
+# return the highest version git tag, example: 1.0.0, or the first version: 0.0.1
 function get_latest_tag() {
-  git tag --sort=-version:refname | head -1
+  local VERSION=$(git tag --sort=-version:refname | head -1)
+  if [[ -n $VERSION ]]
+  then
+    echo $VERSION
+  else
+    echo 0.0.1
+  fi
 }
 
 
@@ -54,7 +65,6 @@ function increment() {
     IMAGE_VERSION="${MAJOR}.${MINOR}.$((PATCH+1))"
   else
     >&2 echo "ERROR: can only use major or minor or patch as RELEASE_TYPE!"
-    exit 1
   fi
 
 
@@ -64,11 +74,7 @@ function increment() {
 # set & return the git tag, example: 1.2.3
 function tag_new_version() {
   local IMAGE_VERSION="${1}"
-  if ! verify_version $IMAGE_VERSION
-  then
-    >&2 echo "ERROR: image version $IMAGE_VERSION is not a valid version!"
-    exit 1
-  fi
+  verify_version $IMAGE_VERSION
   git tag --annotate --message="Release ${VERSION}" $IMAGE_VERSION
 
   echo $IMAGE_VERSION
@@ -79,13 +85,21 @@ function main() {
   if [[ $RELEASE_TYPE ]]
   then
     local IMAGE_VERSION=$(increment)
+    if [[ -z $IMAGE_VERSION ]]
+    then
+      exit 1
+    fi
     RELEASE_TAG=$(tag_new_version $IMAGE_VERSION)
+    if [[ -z $RELEASE_TAG ]]
+    then
+      exit 1
+    fi
     echo "Release tag ${RELEASE_TAG} added to HEAD."
   else
     if git diff --quiet
       then
       local IMAGE_VERSION=$(get_latest_tag)
-      echo "Latest version: $IMAGE_VERSION"
+      echo "Latest version: \'$IMAGE_VERSION\'"
     else
       local IMAGE_VERSION=devel
     fi
@@ -105,12 +119,16 @@ function main() {
 
 function build_image() {
   IMAGE_VERSION="${1}"
-  docker build --network=host --file Dockerfile --tag ${dockerhub_username}/angular-website.mailnesia.com:${IMAGE_VERSION} .
+  DOCKER_TAG="${dockerhub_username}/angular-website.mailnesia.com:${IMAGE_VERSION}"
+  echo "Building image: $DOCKER_TAG"
+  docker build --file Dockerfile --tag $DOCKER_TAG .
 }
 
 function push_image() {
   IMAGE_VERSION="${1}"
-  docker push --network=host ${dockerhub_username}/angular-website.mailnesia.com:${IMAGE_VERSION}
+  DOCKER_TAG="${dockerhub_username}/angular-website.mailnesia.com:${IMAGE_VERSION}"
+  echo "Pushing image: $DOCKER_TAG"
+  docker push $DOCKER_TAG
 }
 
 # process command line arguments
