@@ -27,7 +27,7 @@
     <ng-template ngFor let-visitor [ngForOf]="visitorList">
       <tr>
         <td class="d-none d-sm-table-cell">{{visitor.timeStamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
-        <td class="d-none d-sm-table-cell"><a href="https://whatismyipaddress.com/ip/{{visitor.ip}}">{{visitor.ip}}</a></td>
+        <td class="d-none d-sm-table-cell"><a rel="nofollow" href="https://whatismyipaddress.com/ip/{{visitor.ip}}">{{visitor.ip}}</a></td>
         <td>{{visitor.userAgent}}</td>
       </tr>
     </ng-template>
