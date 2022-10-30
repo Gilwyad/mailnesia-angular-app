@@ -10,7 +10,7 @@ describe('MailboxNameService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('can save mailbox', done => {
+  it('can save mailbox', (done: DoneFn) => {
     const name = 'test1';
     const firstService: MailboxNameService = TestBed.inject(MailboxNameService);
     const secondService: MailboxNameService = TestBed.inject(MailboxNameService);

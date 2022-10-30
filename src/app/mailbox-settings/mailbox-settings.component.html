@@ -9,9 +9,29 @@
 </div>
 
 <h4>Alias settings</h4>
-<p>
-  <span class="badge badge-pill badge-danger">Warning</span>Alias configuration not implemented
-</p>
+<div class="spinner-border" role="status" *ngIf="aliasesLoading">
+  <span class="sr-only">Loading...</span>
+</div>
+<div *ngIf="!aliasesLoading">
+  <ol>
+    <ng-template ngFor let-alias [ngForOf]="aliasList">
+      <li>
+        <td>
+          <div class="input-group">
+            <input #aliasInput type="text" class="form-control" placeholder="Mailbox to set as alias"
+            [ngModel]="alias"
+            >
+            <div class="input-group-append" id="button-addon4">
+              <button class="btn btn-outline-primary" type="button" (click)="selectOperation(alias, aliasInput.value)">Set</button>
+              <button class="btn btn-outline-danger" type="button" (click)="removeAlias(alias)" >Delete</button>
+            </div>
+          </div>
+        </td>
+      </li>
+    </ng-template>
+  </ol>
+  <button type="button" class="btn btn-secondary" (click)="addNew()">Add</button>
+</div>
 
 <h4>Recent visitors of this mailbox</h4>
 <p>Note that the times are in your local time zone and are only accurate to the hour.</p>

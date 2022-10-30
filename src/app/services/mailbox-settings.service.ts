@@ -24,6 +24,22 @@ export class MailboxSettingsService {
       );
   }
 
+  getAliasList(mailboxName: string): Observable<string[] | HttpErrors> {
+    return this.httpClientSkipInterceptor.get<string[]>(`${environment.backendApiUrl}/alias/${mailboxName}`)
+      .pipe(
+        catchError(err => this.handleHttpError(err))
+      );
+  }
+
+  addAlias(mailboxName: string, alias: string): Observable<void | HttpErrors> {
+    return this.httpClientSkipInterceptor.post<void>(
+        `${environment.backendApiUrl}/alias/${mailboxName}/${alias}`, undefined
+      ).pipe(
+        catchError(err => this.handleHttpError(err))
+      );
+  }
+
+
   handleHttpError(err: HttpErrorResponse): Observable<HttpErrors> {
     const errorObject: HttpErrors = {
       code: err.status,
