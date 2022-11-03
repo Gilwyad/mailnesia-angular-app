@@ -4,6 +4,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { MailboxSettingsService } from './mailbox-settings.service';
 import { HttpErrors } from '../types/http-errors.model';
 
+//FIXME: add tests with + in names
 describe('MailboxSettingsService', () => {
   let httpTestingController: HttpTestingController;
   let service: MailboxSettingsService;
@@ -46,7 +47,8 @@ describe('MailboxSettingsService', () => {
         next: (data: VisitorList[]) => {
           // When observable resolves, result should match test data
           expect(data).toEqual(testData);
-        }
+        },
+        error: () => fail('should not have been an error'),
       });
 
       // The following `expectOne()` will match the request's URL.
@@ -84,40 +86,140 @@ describe('MailboxSettingsService', () => {
 
   describe('Alias tests', () => {
 
-    it('should return a list of aliases for mailbox test', () => {
-      const testData: string[] = [
-        'test1', 'test2'
-      ];
-      service.getAliasList('test').subscribe({
-        next: (data: string[]) => {
-          expect(data).toEqual(testData);
-        }
+    describe('Get Alias tests', () => {
+      it('should return a list of aliases for mailbox test', () => {
+        const testData: string[] = [
+          'test1', 'test2'
+        ];
+        service.getAliasList('test').subscribe({
+          next: (data: string[]) => {
+            expect(data).toEqual(testData);
+          },
+          error: () => fail('should not have been an error'),
+        });
+
+        const request = httpTestingController.expectOne('/api/alias/test');
+
+        expect(request.request.method).toEqual('GET');
+
+        request.flush(testData);
       });
 
-      const request = httpTestingController.expectOne('/api/alias/test');
 
-      expect(request.request.method).toEqual('GET');
+      it('should return error', () => {
+        service.getAliasList('test').subscribe({
+          next: () => fail('this should have been an error'),
+          error: (data: HttpErrors) => {
+            expect(data.code).toEqual(500);
+            expect(data.message).toEqual('error');
+            expect(data.serverMessage).toContain('Server Error');
+          }
+        });
+        const request = httpTestingController.expectOne('/api/alias/test');
+        request.flush('error', {
+          status: 500,
+          statusText: 'Server Error',
+        });
+      });
 
-      request.flush(testData);
     });
 
+    describe('Add alias tests', () => {
+      it('should add alias', (done: DoneFn) => {
+        service.addAlias('test1', 'test2').subscribe({
+          next: () => {
+            done();
+          },
+          error: () => fail('should not have been an error'),
+        });
 
-    it('should return error', () => {
-      service.getAliasList('test').subscribe({
-        next: () => fail('this should have been an error'),
-        error: (data: HttpErrors) => {
-          expect(data.code).toEqual(500);
-          expect(data.message).toEqual('error');
-          expect(data.serverMessage).toContain('Server Error');
-        }
+        const request = httpTestingController.expectOne('/api/alias/test1/test2');
+        expect(request.request.method).toEqual('POST');
+        request.flush('');
       });
-      const request = httpTestingController.expectOne('/api/alias/test');
-      request.flush('error', {
-        status: 500,
-        statusText: 'Server Error',
+
+      it('should return error', () => {
+        service.addAlias('test2', 'test3').subscribe({
+          next: () => fail('this should have been an error'),
+          error: (data: HttpErrors) => {
+            expect(data.code).toEqual(500);
+            expect(data.message).toEqual('error');
+            expect(data.serverMessage).toContain('Server Error');
+          }
+        });
+        const request = httpTestingController.expectOne('/api/alias/test2/test3');
+        request.flush('error', {
+          status: 500,
+          statusText: 'Server Error',
+        });
       });
 
     });
+
+    describe('Delete alias tests', () => {
+      it('should delete alias', (done: DoneFn) => {
+        service.deleteAlias('test1', 'test2').subscribe({
+          next: () => {
+            done();
+          },
+          error: () => fail('should not have been an error'),
+        });
+
+        const request = httpTestingController.expectOne('/api/alias/test1/test2');
+        expect(request.request.method).toEqual('DELETE');
+        request.flush('');
+      });
+
+      it('should return error', () => {
+        service.addAlias('test2', 'test3').subscribe({
+          next: () => fail('this should have been an error'),
+          error: (data: HttpErrors) => {
+            expect(data.code).toEqual(500);
+            expect(data.message).toEqual('error');
+            expect(data.serverMessage).toContain('Server Error');
+          }
+        });
+        const request = httpTestingController.expectOne('/api/alias/test2/test3');
+        request.flush('error', {
+          status: 500,
+          statusText: 'Server Error',
+        });
+      });
+
+    });
+
+    describe('Modify alias tests', () => {
+      it('should modify alias', (done: DoneFn) => {
+        service.modifyAlias('mailbox', 'old-alias', 'new-alias').subscribe({
+          next: () => {
+            done();
+          },
+          error: () => fail('should not have been an error'),
+        });
+
+        const request = httpTestingController.expectOne('/api/alias/mailbox/old-alias/new-alias');
+        expect(request.request.method).toEqual('PUT');
+        request.flush('');
+      });
+
+      it('should return error', () => {
+        service.modifyAlias('test2', 'test3', 'test4').subscribe({
+          next: () => fail('this should have been an error'),
+          error: (data: HttpErrors) => {
+            expect(data.code).toEqual(500);
+            expect(data.message).toEqual('error');
+            expect(data.serverMessage).toContain('Server Error');
+          }
+        });
+        const request = httpTestingController.expectOne('/api/alias/test2/test3/test4');
+        request.flush('error', {
+          status: 500,
+          statusText: 'Server Error',
+        });
+      });
+
+    });
+
   });
 
 });

@@ -22,7 +22,7 @@
             [ngModel]="alias"
             >
             <div class="input-group-append" id="button-addon4">
-              <button class="btn btn-outline-primary" type="button" (click)="selectOperation(alias, aliasInput.value)">Set</button>
+              <button class="btn btn-outline-primary" type="button" (click)="addOrModifyAlias(alias, aliasInput.value)">Set</button>
               <button class="btn btn-outline-danger" type="button" (click)="removeAlias(alias)" >Delete</button>
             </div>
           </div>
@@ -30,7 +30,7 @@
       </li>
     </ng-template>
   </ol>
-  <button type="button" class="btn btn-secondary" (click)="addNew()">Add</button>
+  <button type="button" class="btn btn-secondary" (click)="addAliasToSet()">Add</button>
 </div>
 
 <h4>Recent visitors of this mailbox</h4>
