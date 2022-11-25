@@ -1,4 +1,5 @@
 import { VisitorList } from './../types/mailbox-settings.model';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MailboxSettingsService } from './../services/mailbox-settings.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -15,9 +16,12 @@ export class MailboxSettingsComponent implements OnInit, OnDestroy {
   visitorList: VisitorList[] = [];
   errorLoadingVisitorList = false;
   errorLoadingAliasList = false;
+  aliasError = false;
   aliasList = new Set([]);
   aliasesLoading = false;
   subscriptions: Subscription[] = [];
+  mailboxForm: FormGroup;
+  deleteLog: string[] = [];
 
   constructor(
     private location: Location,
@@ -33,6 +37,14 @@ export class MailboxSettingsComponent implements OnInit, OnDestroy {
         this.getAliasList();
       }
     ));
+    this.mailboxForm = new FormGroup({
+      mailbox: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(30),
+        Validators.pattern('[A-Za-z0-9.+_-]+')
+        ])
+    });
+
   }
 
   ngOnDestroy(): void {
@@ -53,29 +65,36 @@ export class MailboxSettingsComponent implements OnInit, OnDestroy {
     this.aliasList.add(alias);
   }
 
-  /**
-   * Add or modify alias
-   *
-   * @param oldAlias the alias to modify
-   * @param newAlias the new alias to set
-   * @returns void
-   */
-  addOrModifyAlias(oldAlias: string, newAlias: string) {
-    this.removeAliasFromSet('');
-    if (oldAlias) {
-      return this.modifyAlias(oldAlias, newAlias);
-    } else {
-      return this.addAlias(newAlias);
-    }
+  disableAddButton(): boolean {
+    return this.aliasList.has('');
   }
+
 
   removeAlias(alias: string) {
     this.mailboxSettingsService.deleteAlias(this.mailbox, alias).subscribe({
       next: () => {
         this.removeAliasFromSet(alias);
+        this.aliasError = false;
+        this.deleteLog.push(`Alias ${alias} has been removed.`);
       },
       error: () => {
         //failed to remove alias
+        this.aliasError = true;
+      }
+    });
+  }
+
+  addAlias(alias: string) {
+    this.mailboxSettingsService.addAlias(this.mailbox, alias).subscribe({
+      next: () => {
+        this.removeAliasFromSet('');
+        this.addAliasToSet(alias);
+        this.mailboxForm.reset();
+        this.aliasError = false;
+      },
+      error: () => {
+        //failed to set alias
+        this.aliasError = true;
       }
     });
   }
@@ -106,31 +125,5 @@ export class MailboxSettingsComponent implements OnInit, OnDestroy {
       },
     });
   }
-
-  private modifyAlias(oldAlias: string, newAlias: string) {
-    if (oldAlias !== newAlias) {
-      this.mailboxSettingsService.modifyAlias(this.mailbox, oldAlias, newAlias).subscribe({
-        next: () => {
-          this.removeAliasFromSet(oldAlias);
-          this.addAliasToSet(newAlias);
-        },
-        error: () => {
-          // failed to modify alias
-        }
-      });
-    }
-  }
-
-  private addAlias(alias: string) {
-    this.mailboxSettingsService.addAlias(this.mailbox, alias).subscribe({
-      next: () => {
-        this.addAliasToSet(alias);
-      },
-      error: () => {
-        //failed to set alias
-      }
-    });
-  }
-
 
 }

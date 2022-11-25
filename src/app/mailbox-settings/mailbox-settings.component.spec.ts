@@ -31,7 +31,7 @@ describe('MailboxSettingsComponent', () => {
     // Create a fake TwainService object with a `getQuote()` spy
     mailboxSettingsServiceMock = jasmine.createSpyObj(
       'MailboxSettingsService', [
-        'getVisitorList', 'getAliasList', 'addAlias',
+        'getVisitorList', 'getAliasList', 'addAlias', 'deleteAlias',
       ]);
 
     TestBed.configureTestingModule({
@@ -73,16 +73,21 @@ describe('MailboxSettingsComponent', () => {
 
 
 
-  // it('should be possible to add alias', () => {
-  //   component.addNew();
-  //   expect(component.aliasList).toEqual(new Set(['']));
-  //   component.selectOperation('', 'test');
-  //   expect(component.aliasList).toEqual(new Set(['test']));
-  // });
+  it('should be possible to add alias', () => {
+    mailboxSettingsServiceMock.addAlias.and.returnValue(of(null));
+    expect(component.aliasList).toEqual(new Set(testAliases));
+    component.addAlias('test');
+    const expectedSet = new Set(testAliases);
+    expectedSet.add('test');
+    expect(component.aliasList).toEqual(expectedSet);
+  });
 
-  // it('should be possible to modify alias', () => {
-  //   component.aliasList = new Set(['test1', 'test2']);
-  //   component.selectOperation('test1', 'test3');
-  //   expect(component.aliasList).toEqual(new Set(['test2', 'test3']));
-  // });
+  it('should be possible to delete alias', () => {
+    mailboxSettingsServiceMock.deleteAlias.and.returnValue(of(null));
+    expect(component.aliasList).toEqual(new Set(testAliases));
+    component.removeAlias('test1');
+    const expectedSet = new Set(testAliases);
+    expectedSet.delete('test1');
+    expect(component.aliasList).toEqual(expectedSet);
+  });
 });
