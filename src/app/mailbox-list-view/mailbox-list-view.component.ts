@@ -136,7 +136,10 @@ export class MailboxListViewComponent implements OnInit, OnDestroy {
     });
   }
 
-  /** load list of emails of this mailbox */
+  /**
+   * load list of emails of this mailbox
+   * @param mailbox the mailbox name
+   */
   private loadEmails(mailbox: string) {
     this.emailListService.getEmailList(mailbox).subscribe({
       next: (data: EmailList[]) => {

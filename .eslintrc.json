@@ -18,7 +18,10 @@
       "extends": [
         "plugin:@angular-eslint/ng-cli-compat",
         "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:import/recommended",
+        "plugin:import/typescript",
+        "plugin:jsdoc/recommended"
       ],
       "rules": {
         "@angular-eslint/component-selector": [
@@ -47,7 +50,24 @@
           "off",
           "always"
         ],
-        "import/order": "off"
+        "import/order": "off",
+        "jsdoc/newline-after-description": "off",
+        "jsdoc/require-returns-type": "off",
+        "jsdoc/require-param-type": "off",
+        "prefer-arrow/prefer-arrow-functions": [
+          "error",
+          {
+            "disallowPrototype": true,
+            "singleReturnOnly": false,
+            "classPropertiesAllowed": false
+          }
+        ]
+      },
+      "settings": {
+        "import/resolver": {
+          "typescript": true,
+          "node": true
+        }
       }
     },
     {
@@ -59,5 +79,8 @@
       ],
       "rules": {}
     }
+  ],
+  "plugins": [
+    "prefer-arrow"
   ]
 }

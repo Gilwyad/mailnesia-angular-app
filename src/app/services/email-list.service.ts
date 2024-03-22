@@ -18,7 +18,11 @@ export class EmailListService {
     this.httpClientSkipInterceptor = new HttpClient(handler);
   }
 
-  /** Load list of emails */
+  /**
+   * Load list of emails
+   * @param mailboxName the mailbox name
+   * @returns the get response
+   */
   getEmailList(mailboxName: string): Observable<EmailList[] | HttpErrors> {
     return this.http.get<EmailList[]>(`${this.url}/mailbox/${mailboxName}`)
       .pipe(
@@ -33,7 +37,11 @@ export class EmailListService {
       );
   }
 
-  /** delete all emails in inbox */
+  /**
+   * delete all emails in inbox
+   * @param mailboxName the mailbox
+   * @returns the delete response
+   */
   wipeMailbox(mailboxName: string): Observable<void | HttpErrors> {
     return this.http.delete<void>(`${this.url}/mailbox/${mailboxName}`)
       .pipe(
