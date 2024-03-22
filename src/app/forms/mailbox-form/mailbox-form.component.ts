@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-mailbox-form',
@@ -7,7 +7,7 @@ import { FormControl, Validators } from '@angular/forms';
   styleUrls: ['./mailbox-form.component.less']
 })
 export class MailboxFormComponent implements OnInit {
-  mailboxForm = new FormControl('', [
+  mailboxForm = new UntypedFormControl('', [
       Validators.required,
       Validators.maxLength(30),
       Validators.pattern('[A-Za-z0-9.+_-]+')

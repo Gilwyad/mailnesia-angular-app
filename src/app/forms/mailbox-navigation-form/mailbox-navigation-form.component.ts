@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MailboxNameService } from 'src/app/services/mailbox-name.service';
 
@@ -9,8 +9,8 @@ import { MailboxNameService } from 'src/app/services/mailbox-name.service';
   styleUrls: ['./mailbox-navigation-form.component.less']
 })
 export class MailboxNavigationFormComponent implements OnInit {
-  mailboxNavigationForm = new FormGroup({
-    mailbox: new FormControl('', [
+  mailboxNavigationForm = new UntypedFormGroup({
+    mailbox: new UntypedFormControl('', [
       Validators.required,
       Validators.maxLength(30),
       Validators.pattern('[A-Za-z0-9.+_-]+')

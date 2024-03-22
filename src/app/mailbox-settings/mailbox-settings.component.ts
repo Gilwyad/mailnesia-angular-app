@@ -1,5 +1,5 @@
 import { VisitorList } from './../types/mailbox-settings.model';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MailboxSettingsService } from './../services/mailbox-settings.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -20,7 +20,7 @@ export class MailboxSettingsComponent implements OnInit, OnDestroy {
   aliasList = new Set([]);
   aliasesLoading = false;
   subscriptions: Subscription[] = [];
-  mailboxForm: FormGroup;
+  mailboxForm: UntypedFormGroup;
   deleteLog: string[] = [];
 
   constructor(
@@ -37,8 +37,8 @@ export class MailboxSettingsComponent implements OnInit, OnDestroy {
         this.getAliasList();
       }
     ));
-    this.mailboxForm = new FormGroup({
-      mailbox: new FormControl('', [
+    this.mailboxForm = new UntypedFormGroup({
+      mailbox: new UntypedFormControl('', [
         Validators.required,
         Validators.maxLength(30),
         Validators.pattern('[A-Za-z0-9.+_-]+')
