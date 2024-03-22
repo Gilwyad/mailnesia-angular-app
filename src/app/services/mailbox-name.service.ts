@@ -29,7 +29,7 @@ export class MailboxNameService {
   }
 
   /**
-   * @returns {string} the currently saved mailbox name
+   * @returns the currently saved mailbox name
    */
   getMailboxName(): string {
     return this.mailboxName.getValue();
