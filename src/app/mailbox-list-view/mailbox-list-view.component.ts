@@ -137,6 +137,15 @@ export class MailboxListViewComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * convert date from string to Date
+   * @param date the date in string format
+   * @returns the date in JavaScript Date
+   */
+  formatDate(date: string): Date {
+    return new Date(date);
+  }
+
+  /**
    * load list of emails of this mailbox
    * @param mailbox the mailbox name
    */

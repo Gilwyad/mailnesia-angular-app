@@ -1,4 +1,4 @@
-import { TimeAgoPipe } from 'time-ago-pipe';
+import { NgDatePipesModule } from 'ngx-pipes';
 import { BypassSecurityPipe } from './../bypass-security.pipe';
 import { MailboxDetailViewComponent } from './../mailbox-detail-view/mailbox-detail-view.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -20,7 +20,6 @@ describe('MailboxListViewComponent', () => {
         MailboxListViewComponent,
         MailboxDetailViewComponent,
         BypassSecurityPipe,
-        TimeAgoPipe
       ],
       imports: [
         RouterTestingModule,
@@ -28,6 +27,7 @@ describe('MailboxListViewComponent', () => {
         PaginationModule.forRoot(),
         FormsModule,
         ModalModule.forRoot(),
+        NgDatePipesModule,
       ],
       providers: [
         { provide: ComponentFixtureAutoDetect, useValue: true }

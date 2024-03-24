@@ -45,7 +45,7 @@
   <tbody>
     <ng-template ngFor let-email [ngForOf]="emailListPage">
       <tr (click)="openEmail(email)" id="{{email.id}}">
-        <td class="d-none d-sm-table-cell">{{email.date | timeAgo}}</td>
+        <td class="d-none d-sm-table-cell" title="{{email.date}}" >{{ formatDate(email.date) | timeAgo }}</td>
         <td [innerHTML]="email.from"></td>
         <td [innerHTML]="email.to" class="d-none d-sm-table-cell"></td>
         <td>{{email.subject}}</td>

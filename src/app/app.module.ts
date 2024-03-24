@@ -1,7 +1,7 @@
 import { CacheInterceptor } from './interceptors/cache.interceptor';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, Pipe, PipeTransform } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,19 +18,9 @@ import { ViewportScroller } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { TimeAgoPipe } from 'time-ago-pipe';
+import { NgDatePipesModule } from 'ngx-pipes';
 import { SettingsComponent } from './settings/settings.component';
 
-@Pipe({
-  name: 'timeAgo',
-  pure: false
-})
-export class TimeAgoExtendsPipe extends TimeAgoPipe implements PipeTransform {
-  // this extend is necessary due to https://github.com/AndrewPoyntz/time-ago-pipe/issues/33
-  transform(value: string): string {
-    return super.transform(value);
-  }
-}
 
 @NgModule({
   declarations: [
@@ -42,7 +32,6 @@ export class TimeAgoExtendsPipe extends TimeAgoPipe implements PipeTransform {
     MailboxFormComponent,
     MailboxNavigationFormComponent,
     BypassSecurityPipe,
-    TimeAgoExtendsPipe,
     SettingsComponent
   ],
   imports: [
@@ -54,6 +43,7 @@ export class TimeAgoExtendsPipe extends TimeAgoPipe implements PipeTransform {
     PaginationModule.forRoot(),
     FormsModule,
     ModalModule.forRoot(),
+    NgDatePipesModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true},
