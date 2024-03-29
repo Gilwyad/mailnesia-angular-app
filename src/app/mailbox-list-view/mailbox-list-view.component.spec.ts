@@ -1,7 +1,6 @@
 import { NgDatePipesModule } from 'ngx-pipes';
 import { BypassSecurityPipe } from './../bypass-security.pipe';
 import { MailboxDetailViewComponent } from './../mailbox-detail-view/mailbox-detail-view.component';
-import { RouterTestingModule } from '@angular/router/testing';
 import { waitForAsync, ComponentFixture, TestBed, ComponentFixtureAutoDetect } from '@angular/core/testing';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -9,6 +8,7 @@ import { MailboxListViewComponent } from './mailbox-list-view.component';
 import { HttpClientModule } from '@angular/common/http';
 import { EmailList } from '../types/email-list.model';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 describe('MailboxListViewComponent', () => {
   let component: MailboxListViewComponent;
@@ -22,7 +22,9 @@ describe('MailboxListViewComponent', () => {
         BypassSecurityPipe,
       ],
       imports: [
-        RouterTestingModule,
+        RouterModule.forRoot([
+          { path: '', component: MailboxListViewComponent }
+        ]),
         HttpClientModule,
         PaginationModule.forRoot(),
         FormsModule,

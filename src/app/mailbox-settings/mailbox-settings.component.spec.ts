@@ -2,9 +2,8 @@ import { MailboxSettingsService } from './../services/mailbox-settings.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MailboxSettingsComponent } from './mailbox-settings.component';
-import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { VisitorList } from '../types/mailbox-settings.model';
 
 describe('MailboxSettingsComponent', () => {
@@ -37,7 +36,9 @@ describe('MailboxSettingsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ MailboxSettingsComponent ],
       imports: [
-        RouterTestingModule,
+        RouterModule.forRoot([
+          { path: '', component: MailboxSettingsComponent }
+        ]),
         HttpClientTestingModule
       ],
       providers: [

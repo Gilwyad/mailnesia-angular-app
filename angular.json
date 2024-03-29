@@ -73,19 +73,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "mailnesia-angular-app:build",
-            "proxyConfig": "src/proxy.conf.json"
+            "proxyConfig": "src/proxy.conf.json",
+            "buildTarget": "mailnesia-angular-app:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "mailnesia-angular-app:build:production"
+              "buildTarget": "mailnesia-angular-app:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "mailnesia-angular-app:build"
+            "buildTarget": "mailnesia-angular-app:build"
           }
         },
         "test": {
