@@ -2,7 +2,7 @@ import { CacheInterceptor } from './interceptors/cache.interceptor';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -22,34 +22,28 @@ import { NgDatePipesModule } from 'ngx-pipes';
 import { SettingsComponent } from './settings/settings.component';
 
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    MailboxSettingsComponent,
-    MailboxListViewComponent,
-    MailboxDetailViewComponent,
-    MainPageComponent,
-    MailboxFormComponent,
-    MailboxNavigationFormComponent,
-    BypassSecurityPipe,
-    SettingsComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    PaginationModule.forRoot(),
-    FormsModule,
-    ModalModule.forRoot(),
-    NgDatePipesModule,
-  ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true},
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        MailboxSettingsComponent,
+        MailboxListViewComponent,
+        MailboxDetailViewComponent,
+        MainPageComponent,
+        MailboxFormComponent,
+        MailboxNavigationFormComponent,
+        BypassSecurityPipe,
+        SettingsComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        PaginationModule.forRoot(),
+        FormsModule,
+        ModalModule.forRoot(),
+        NgDatePipesModule], providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 
 export class AppModule {
   constructor(router: Router, viewportScroller: ViewportScroller) {

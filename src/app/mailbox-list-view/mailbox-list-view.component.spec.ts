@@ -5,7 +5,7 @@ import { waitForAsync, ComponentFixture, TestBed, ComponentFixtureAutoDetect } f
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { MailboxListViewComponent } from './mailbox-list-view.component';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { EmailList } from '../types/email-list.model';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -16,25 +16,23 @@ describe('MailboxListViewComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
+    declarations: [
         MailboxListViewComponent,
         MailboxDetailViewComponent,
         BypassSecurityPipe,
-      ],
-      imports: [
-        RouterModule.forRoot([
-          { path: '', component: MailboxListViewComponent }
+    ],
+    imports: [RouterModule.forRoot([
+            { path: '', component: MailboxListViewComponent }
         ]),
-        HttpClientModule,
         PaginationModule.forRoot(),
         FormsModule,
         ModalModule.forRoot(),
-        NgDatePipesModule,
-      ],
-      providers: [
-        { provide: ComponentFixtureAutoDetect, useValue: true }
-      ]
-    })
+        NgDatePipesModule],
+    providers: [
+        { provide: ComponentFixtureAutoDetect, useValue: true },
+        provideHttpClient(withInterceptorsFromDi())
+    ]
+})
     .compileComponents();
   }));
 

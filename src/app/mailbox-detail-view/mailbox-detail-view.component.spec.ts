@@ -2,7 +2,7 @@ import { Email } from './../types/email.model';
 import { waitForAsync, ComponentFixture, TestBed, ComponentFixtureAutoDetect } from '@angular/core/testing';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { MailboxDetailViewComponent } from './mailbox-detail-view.component';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BypassSecurityPipe } from '../bypass-security.pipe';
 import { RouterModule } from '@angular/router';
 
@@ -12,21 +12,19 @@ describe('MailboxDetailViewComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
+    declarations: [
         MailboxDetailViewComponent,
         BypassSecurityPipe,
-      ],
-      imports: [
-        HttpClientModule,
-        RouterModule.forRoot([
-          { path: '', component: MailboxDetailViewComponent }
+    ],
+    imports: [RouterModule.forRoot([
+            { path: '', component: MailboxDetailViewComponent }
         ]),
-        ModalModule.forRoot(),
-      ],
-      providers: [
-        { provide: ComponentFixtureAutoDetect, useValue: true }
-      ]
-    })
+        ModalModule.forRoot()],
+    providers: [
+        { provide: ComponentFixtureAutoDetect, useValue: true },
+        provideHttpClient(withInterceptorsFromDi())
+    ]
+})
     .compileComponents();
   }));
 

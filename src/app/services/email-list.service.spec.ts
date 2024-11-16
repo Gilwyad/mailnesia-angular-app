@@ -1,8 +1,9 @@
 import { EmailList } from './../types/email-list.model';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { EmailListService } from './email-list.service';
 import { HttpErrors } from '../types/http-errors.model';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('EmailListService', () => {
   let service: EmailListService;
@@ -10,12 +11,12 @@ describe('EmailListService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-      ],
-      providers: [
-      ]
-    });
+    imports: [],
+    providers: [
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+});
 
     service = TestBed.inject(EmailListService);
     httpTestingController = TestBed.inject(HttpTestingController);

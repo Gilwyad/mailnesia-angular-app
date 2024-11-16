@@ -1,8 +1,9 @@
 import { VisitorList } from './../types/mailbox-settings.model';
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { MailboxSettingsService } from './mailbox-settings.service';
 import { HttpErrors } from '../types/http-errors.model';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 //FIXME: add tests with + in names
 describe('MailboxSettingsService', () => {
@@ -11,10 +12,9 @@ describe('MailboxSettingsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-      ],
-    });
+    imports: [],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
     service = TestBed.inject(MailboxSettingsService);
     httpTestingController = TestBed.inject(HttpTestingController);
   });

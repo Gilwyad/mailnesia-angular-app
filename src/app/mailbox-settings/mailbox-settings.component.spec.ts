@@ -1,10 +1,11 @@
 import { MailboxSettingsService } from './../services/mailbox-settings.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MailboxSettingsComponent } from './mailbox-settings.component';
 import { of } from 'rxjs';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { VisitorList } from '../types/mailbox-settings.model';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('MailboxSettingsComponent', () => {
   let component: MailboxSettingsComponent;
@@ -34,18 +35,17 @@ describe('MailboxSettingsComponent', () => {
       ]);
 
     TestBed.configureTestingModule({
-      declarations: [ MailboxSettingsComponent ],
-      imports: [
-        RouterModule.forRoot([
-          { path: '', component: MailboxSettingsComponent }
-        ]),
-        HttpClientTestingModule
-      ],
-      providers: [
-        {provide: MailboxSettingsService, useValue: mailboxSettingsServiceMock},
-        {provide: ActivatedRoute, useValue: { params: of({mailbox: mailboxName}) }},
-      ]
-    })
+    declarations: [MailboxSettingsComponent],
+    imports: [RouterModule.forRoot([
+            { path: '', component: MailboxSettingsComponent }
+        ])],
+    providers: [
+        { provide: MailboxSettingsService, useValue: mailboxSettingsServiceMock },
+        { provide: ActivatedRoute, useValue: { params: of({ mailbox: mailboxName }) } },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+})
     .compileComponents();
   }));
 
