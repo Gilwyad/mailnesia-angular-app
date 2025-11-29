@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 import { MailboxNameService } from 'src/app/services/mailbox-name.service';
 
 @Component({
-  selector: 'app-mailbox-navigation-form',
-  templateUrl: './mailbox-navigation-form.component.html',
-  styleUrls: ['./mailbox-navigation-form.component.less']
+    selector: 'app-mailbox-navigation-form',
+    templateUrl: './mailbox-navigation-form.component.html',
+    styleUrls: ['./mailbox-navigation-form.component.less'],
+    standalone: false
 })
 export class MailboxNavigationFormComponent implements OnInit {
   mailboxNavigationForm = new UntypedFormGroup({

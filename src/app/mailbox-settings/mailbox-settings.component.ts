@@ -7,9 +7,10 @@ import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-mailbox-settings',
-  templateUrl: './mailbox-settings.component.html',
-  styleUrls: ['./mailbox-settings.component.less']
+    selector: 'app-mailbox-settings',
+    templateUrl: './mailbox-settings.component.html',
+    styleUrls: ['./mailbox-settings.component.less'],
+    standalone: false
 })
 export class MailboxSettingsComponent implements OnInit, OnDestroy {
   mailbox: string;

@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 
 @Pipe({
-  name: 'bypassSecurity'
+    name: 'bypassSecurity',
+    standalone: false
 })
 export class BypassSecurityPipe implements PipeTransform {
 

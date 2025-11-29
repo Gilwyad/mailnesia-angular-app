@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MailboxNameService } from '../services/mailbox-name.service';
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.less']
+    selector: 'app-settings',
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.less'],
+    standalone: false
 })
 export class SettingsComponent implements OnInit {
   saveLastViewedMailbox = false;

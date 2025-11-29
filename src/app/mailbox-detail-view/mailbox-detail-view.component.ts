@@ -7,9 +7,10 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { HttpCacheService } from '../services/http-cache.service';
 
 @Component({
-  selector: 'app-mailbox-detail-view',
-  templateUrl: './mailbox-detail-view.component.html',
-  styleUrls: ['./mailbox-detail-view.component.less']
+    selector: 'app-mailbox-detail-view',
+    templateUrl: './mailbox-detail-view.component.html',
+    styleUrls: ['./mailbox-detail-view.component.less'],
+    standalone: false
 })
 export class MailboxDetailViewComponent implements OnInit {
   @Input() emailId: number;

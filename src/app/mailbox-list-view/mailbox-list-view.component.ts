@@ -10,9 +10,10 @@ import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
-  selector: 'app-mailbox-list-view',
-  templateUrl: './mailbox-list-view.component.html',
-  styleUrls: ['./mailbox-list-view.component.less']
+    selector: 'app-mailbox-list-view',
+    templateUrl: './mailbox-list-view.component.html',
+    styleUrls: ['./mailbox-list-view.component.less'],
+    standalone: false
 })
 export class MailboxListViewComponent implements OnInit, OnDestroy {
   mailbox: string;

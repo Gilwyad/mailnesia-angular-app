@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-mailbox-form',
-  templateUrl: './mailbox-form.component.html',
-  styleUrls: ['./mailbox-form.component.less']
+    selector: 'app-mailbox-form',
+    templateUrl: './mailbox-form.component.html',
+    styleUrls: ['./mailbox-form.component.less'],
+    standalone: false
 })
 export class MailboxFormComponent implements OnInit {
   mailboxForm = new UntypedFormControl('', [
