@@ -1,29 +1,41 @@
-<div id="loading" class="spinner-border" role="status" *ngIf="isLoading">
-  <span class="sr-only">Loading...</span>
-</div>
-<div id="error" class="alert alert-danger" role="alert" *ngIf="emailError">
-  Error loading email!
-</div>
+@if (isLoading) {
+  <div id="loading" class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+}
+@if (emailError) {
+  <div id="error" class="alert alert-danger" role="alert">
+    Error loading email!
+  </div>
+}
 
-<div class="row icons" *ngIf="!emailError">
-  <a class="icons" (click)="goBack()" title="Go back to list">
-    <img src="assets/left-arrow.svg">
-  </a>
-  <a class="icons" href="https://mailnesia.com/mailbox/{{mailbox}}/{{emailId}}/raw" title="View original">
-    <img src="assets/code.svg">
-  </a>
-  <a class="icons" (click)="openModal(template)" title="Delete this email">
-    <img src="assets/trash.svg">
-  </a>
-</div>
+@if (!emailError) {
+  <div class="row icons">
+    <a class="icons" (click)="goBack()" title="Go back to list">
+      <img src="assets/left-arrow.svg">
+    </a>
+    <a class="icons" href="https://mailnesia.com/mailbox/{{mailbox}}/{{emailId}}/raw" title="View original">
+      <img src="assets/code.svg">
+    </a>
+    <a class="icons" (click)="openModal(template)" title="Delete this email">
+      <img src="assets/trash.svg">
+    </a>
+  </div>
+}
 
-<ul class="nav nav-tabs" *ngIf="email">
-  <li class="nav-item" *ngFor="let tab of objectKeys(email)">
-    <a class="nav-link" [ngClass]="{'active': selectedTab===tab}" (click)=setSelectedTab($any(tab))>{{tab}}</a>
-  </li>
-</ul>
+@if (email) {
+  <ul class="nav nav-tabs">
+    @for (tab of objectKeys(email); track tab) {
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{'active': selectedTab===tab}" (click)=setSelectedTab($any(tab))>{{tab}}</a>
+      </li>
+    }
+  </ul>
+}
 
-<div id="mailnesiaHtmlEmailContent" *ngIf="email && email[selectedTab]" [innerHTML]="email[selectedTab] | bypassSecurity"></div>
+@if (email && email[selectedTab]) {
+  <div id="mailnesiaHtmlEmailContent" [innerHTML]="email[selectedTab] | bypassSecurity"></div>
+}
 
 <ng-template #template>
   <div class="modal-header">
@@ -36,8 +48,10 @@
     <p>Are you sure you want to delete the displayed email?</p>
     <button type="button" class="btn btn-danger" (click)="deleteEmail()" >Delete</button>
     <button type="button" class="btn btn-light" (click)="modalRef.hide()" >Cancel</button>
-    <p *ngIf="deleteError">
-      <span class="badge badge-pill badge-danger">Error</span>Failed to delete email!
-    </p>
+    @if (deleteError) {
+      <p>
+        <span class="badge badge-pill badge-danger">Error</span>Failed to delete email!
+      </p>
+    }
   </div>
 </ng-template>

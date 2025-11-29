@@ -9,94 +9,106 @@
 </div>
 
 <h4>Aliases configured for this mailbox</h4>
-<div class="spinner-border" role="status" *ngIf="aliasesLoading">
-  <span class="sr-only">Loading...</span>
-</div>
-<div *ngIf="!aliasesLoading">
-
-  <table id="alias-list" class="table table-sm table-hover" *ngIf="aliasList.size">
-    <thead class="thead-light">
-      <tr>
-        <th style="width: 80%;" class="d-none d-sm-table-cell">Alias name</th>
-        <th style="width: 20%;" class="d-none d-sm-table-cell">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <ng-template ngFor let-alias [ngForOf]="aliasList">
-        <tr>
-          <td>{{alias}}</td>
-          <td class="">
-            <button class="btn btn-outline-danger"
-              type="button"
-              (click)="removeAlias(alias)"
-              >
-              Delete
-            </button>
-          </td>
-        </tr>
-      </ng-template>
-    </tbody>
-  </table>
-
-  <p *ngIf="!aliasList.size">No aliases configured</p>
-
-  <div class="input-group mb-3" [formGroup]="mailboxForm">
-    <input #aliasInput class="form-control" type="text" placeholder="New mailbox to set as alias" aria-label="Search" formControlName="mailbox">
-    <div class="input-group-prepend" *ngIf="mailboxForm.controls.mailbox?.errors?.maxlength">
-      <span class="input-group-text">
-        max 30 characters!
-      </span>
-    </div>
-    <div class="input-group-prepend" *ngIf="mailboxForm.controls.mailbox?.errors?.pattern">
-      <span class="input-group-text">
-        invalid characters!
-      </span>
-    </div>
-    <div class="input-group-append" id="button-addon4">
-      <button class="btn btn-outline-primary"
-      type="button"
-      (click)="addAlias(aliasInput.value)"
-      [disabled]="mailboxForm.invalid"
-      >
-      Set
-      </button>
-    </div>
+@if (aliasesLoading) {
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
   </div>
-
-  <div id="error" class="alert alert-danger" role="alert" *ngIf="aliasError">
-    Error during alias operation!
+}
+@if (!aliasesLoading) {
+  <div>
+    @if (aliasList.size) {
+      <table id="alias-list" class="table table-sm table-hover">
+        <thead class="thead-light">
+          <tr>
+            <th style="width: 80%;" class="d-none d-sm-table-cell">Alias name</th>
+            <th style="width: 20%;" class="d-none d-sm-table-cell">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (alias of aliasList; track alias) {
+            <tr>
+              <td>{{alias}}</td>
+              <td class="">
+                <button class="btn btn-outline-danger"
+                  type="button"
+                  (click)="removeAlias(alias)"
+                  >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+    @if (!aliasList.size) {
+      <p>No aliases configured</p>
+    }
+    <div class="input-group mb-3" [formGroup]="mailboxForm">
+      <input #aliasInput class="form-control" type="text" placeholder="New mailbox to set as alias" aria-label="Search" formControlName="mailbox">
+      @if (mailboxForm.controls.mailbox?.errors?.maxlength) {
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            max 30 characters!
+          </span>
+        </div>
+      }
+      @if (mailboxForm.controls.mailbox?.errors?.pattern) {
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            invalid characters!
+          </span>
+        </div>
+      }
+      <div class="input-group-append" id="button-addon4">
+        <button class="btn btn-outline-primary"
+          type="button"
+          (click)="addAlias(aliasInput.value)"
+          [disabled]="mailboxForm.invalid"
+          >
+          Set
+        </button>
+      </div>
+    </div>
+    @if (aliasError) {
+      <div id="error" class="alert alert-danger" role="alert">
+        Error during alias operation!
+      </div>
+    }
+    @if (deleteLog.length) {
+      <div>
+        <h5>Alias deletion log</h5>
+        <ol>
+          @for (log of deleteLog; track log) {
+            <li>
+              {{log}}
+            </li>
+          }
+        </ol>
+      </div>
+    }
   </div>
-
-  <div *ngIf="deleteLog.length">
-    <h5>Alias deletion log</h5>
-    <ol>
-        <ng-template ngFor let-log [ngForOf]="deleteLog">
-          <li>
-            {{log}}
-          </li>
-        </ng-template>
-    </ol>
-  </div>
-
-</div>
+}
 
 <h4>Recent visitors of this mailbox</h4>
 <p>Note that the times are in your local time zone and are only accurate to the hour.</p>
-<table id="visitor-list" class="table" *ngIf="visitorList?.length">
-  <thead class="thead-light">
-    <tr>
-      <th style="width: 30%;" class="d-none d-sm-table-cell">Date</th>
-      <th style="width: 20%;" class="d-none d-sm-table-cell">IP</th>
-      <th style="width: 50%;">User Agent</th>
-    </tr>
-  </thead>
-  <tbody>
-    <ng-template ngFor let-visitor [ngForOf]="visitorList">
+@if (visitorList?.length) {
+  <table id="visitor-list" class="table">
+    <thead class="thead-light">
       <tr>
-        <td class="d-none d-sm-table-cell">{{visitor.timeStamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
-        <td class="d-none d-sm-table-cell"><a rel="nofollow" href="https://whatismyipaddress.com/ip/{{visitor.ip}}">{{visitor.ip}}</a></td>
-        <td>{{visitor.userAgent}}</td>
+        <th style="width: 30%;" class="d-none d-sm-table-cell">Date</th>
+        <th style="width: 20%;" class="d-none d-sm-table-cell">IP</th>
+        <th style="width: 50%;">User Agent</th>
       </tr>
-    </ng-template>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      @for (visitor of visitorList; track visitor) {
+        <tr>
+          <td class="d-none d-sm-table-cell">{{visitor.timeStamp | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+          <td class="d-none d-sm-table-cell"><a rel="nofollow" href="https://whatismyipaddress.com/ip/{{visitor.ip}}">{{visitor.ip}}</a></td>
+          <td>{{visitor.userAgent}}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
