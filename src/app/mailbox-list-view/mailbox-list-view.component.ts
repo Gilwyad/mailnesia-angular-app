@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { HttpCacheService } from './../services/http-cache.service';
 import { MailboxNameService } from './../services/mailbox-name.service';
 import { EmailList } from './../types/email-list.model';
@@ -30,6 +30,7 @@ export class MailboxListViewComponent implements OnInit, OnDestroy {
   noEmail = false;
   modalRef: BsModalRef;
   deleteError = false;
+  subscriptions: Subscription[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -41,7 +42,7 @@ export class MailboxListViewComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.emailListErrorSubject.subscribe({
+    this.subscriptions.push(this.emailListErrorSubject.subscribe({
       next: (value: HttpErrors) => {
         this.emailListError = value;
 
@@ -51,9 +52,9 @@ export class MailboxListViewComponent implements OnInit, OnDestroy {
           this.isLoading = false;
         }
       }
-    });
+    }));
 
-    this.emailListSubject.subscribe({
+    this.subscriptions.push(this.emailListSubject.subscribe({
       next: (value: EmailList[]) => {
         this.emailList = value;
 
@@ -65,16 +66,16 @@ export class MailboxListViewComponent implements OnInit, OnDestroy {
           this.emailListPage = this.emailList.slice(0, this.numberOfEmailsPerPage);
         }
       }
-    });
+    }));
 
-    this.nameService.selectedEmailListPage.subscribe((page: PageChangedEvent) => {
+    this.subscriptions.push(this.nameService.selectedEmailListPage.subscribe((page: PageChangedEvent) => {
       this.setEmailListPage(page);
-    });
+    }));
 
     // load the mailbox name from the URL into a variable
     // using observable subscription, so the variable is
     // updated when the URL is modified
-    this.route.params.subscribe(
+    this.subscriptions.push(this.route.params.subscribe(
       params => {
         if (!params.mailbox) {
           return;
@@ -83,7 +84,7 @@ export class MailboxListViewComponent implements OnInit, OnDestroy {
         this.loadEmails(this.mailbox);
         this.startPolling(this.mailbox);
       }
-    );
+    ));
 
 }
 
@@ -97,6 +98,7 @@ export class MailboxListViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     clearInterval(this.pollForNewMail);
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
   invalidateEmailListCache() {

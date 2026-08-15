@@ -19,7 +19,7 @@ describe('MailboxDetailViewComponent', () => {
     imports: [RouterModule.forRoot([
             { path: '', component: MailboxDetailViewComponent }
         ]),
-        ModalModule.forRoot()],
+        ModalModule],
     providers: [
         { provide: ComponentFixtureAutoDetect, useValue: true },
         provideHttpClient(withInterceptorsFromDi())

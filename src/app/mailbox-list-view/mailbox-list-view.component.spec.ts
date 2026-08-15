@@ -24,9 +24,9 @@ describe('MailboxListViewComponent', () => {
     imports: [RouterModule.forRoot([
             { path: '', component: MailboxListViewComponent }
         ]),
-        PaginationModule.forRoot(),
+        PaginationModule,
         FormsModule,
-        ModalModule.forRoot(),
+        ModalModule,
         NgDatePipesModule],
     providers: [
         { provide: ComponentFixtureAutoDetect, useValue: true },
@@ -271,7 +271,9 @@ describe('MailboxListViewComponent', () => {
     expect(component.emailList.length).toEqual(3, `component.emailList should contain 3 emails`);
     expect(component.emailListPage.length).toEqual(1, `component.emailList should contain 1 email`);
 
-    fixture.detectChanges();
+    expect(component.currentPage).toBe(2, 'oh');
+    fixture.detectChanges(); // this calls ngOnInit() and sets up the subscriptions, thereby setting the emailListPage to the first page
+    component.setEmailListPage({page: 2, itemsPerPage});
 
     let emailList = nativeElement.querySelectorAll('table#email-list tbody tr');
     expect(emailList.length).toEqual(1, `Should list 1 email`);
@@ -279,6 +281,7 @@ describe('MailboxListViewComponent', () => {
 
     component.insertNewMailToTheTopOfTheList(newEmail);
 
+    expect(component.numberOfEmailsPerPage).toBe(itemsPerPage);
     expect(component.emailList.length).toEqual(5, `component.emailList should contain 5 emails`);
     expect(component.emailListPage.length).toEqual(1, `component.emailList should contain 1 email`);
 
@@ -287,7 +290,6 @@ describe('MailboxListViewComponent', () => {
     emailList = nativeElement.querySelectorAll('table#email-list tbody tr');
     expect(emailList.length).toEqual(1, `Should list 1 email`);
     expect(nativeElement.querySelector('div#error')).toBeNull('Alert should not show if emailListErrorSubject is set to null');
-
   });
 
 });

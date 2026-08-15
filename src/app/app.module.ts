@@ -37,9 +37,9 @@ import { SettingsComponent } from './settings/settings.component';
         AppRoutingModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        PaginationModule.forRoot(),
+        PaginationModule,
         FormsModule,
-        ModalModule.forRoot(),
+        ModalModule,
         NgDatePipesModule], providers: [
         { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
         provideHttpClient(withInterceptorsFromDi()),
